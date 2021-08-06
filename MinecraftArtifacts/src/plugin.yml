@@ -1,0 +1,15 @@
+name: MinecraftArtifacts
+version: 1
+author: EmprZedd
+main: com.emprzedd.minecraftartifacts.Main
+api-version: 1.14
+commands:
+  artifact:
+    description: /ll help for help
+    usage: /ll 
+    aliases: [artgui,artifactgui,agui]
+    permission: MinecraftArtifacts.Usage
+Permissions:
+  MinecraftArtifacts.Usage:
+    description: allows player to open the artifact menu
+    default: op
