@@ -99,6 +99,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 		return this.getItemMeta().getDisplayName();
 	}
 	
+	//yes i know you can do this in 1 pass
 	public String getRawName() {
 		String[] roughName = this.getItemMeta().getDisplayName().split("§");
 		StringBuilder rawName = new StringBuilder();
@@ -155,7 +156,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
     	return null;
     }
     
-    public static ArtifactItem[] FindArtifacts(Inventory inv) {
+    public static ArtifactItem[] findArtifacts(Inventory inv) {
     	ArrayList<ArtifactItem> artifacts = new ArrayList<ArtifactItem>();
     	for(ItemStack item : inv.getContents()) {
     		ArtifactItem artifact = convertItemToArtifact(item);

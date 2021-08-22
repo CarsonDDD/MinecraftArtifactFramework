@@ -21,8 +21,6 @@ public class BanHammer extends ArtifactItem implements Listener{
 
 	public BanHammer(String rawName, Material type, String lore) {
 		super(rawName,rawName, type, lore);
-		canPlace = false;
-		//canRename=true;
 	}
 	
 	public BanHammer() {
@@ -52,6 +50,7 @@ public class BanHammer extends ArtifactItem implements Listener{
 	
 		this.setItemMeta(newMeta);
 		this.canSmite = true;
+		this.canPlace = false;
 	}
 	
 	
