@@ -19,7 +19,7 @@ public class ItemSmite implements Listener{
 			for(ItemStack item : e.getPlayer().getInventory()) {
 				ArtifactItem artifact = ArtifactItem.convertItemToArtifact(item);				
 				if(artifact != null && artifact.canSmite) {
-					Bukkit.broadcastMessage(e.getPlayer().getDisplayName() +ChatColor.RED+ " was not strong enough to handle the power of the " + artifact.getDisplayName()+ChatColor.DARK_RED+".");
+					Bukkit.broadcastMessage(e.getPlayer().getDisplayName() +ChatColor.RED+ " was not strong enough to wield the power of the " + artifact.getDisplayName()+ChatColor.DARK_RED+".");
 					e.getPlayer().setHealth(0.0);
 					return;
 				}

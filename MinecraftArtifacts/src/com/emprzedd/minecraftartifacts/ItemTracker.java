@@ -1,6 +1,5 @@
 package com.emprzedd.minecraftartifacts;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -9,7 +8,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
 
 import com.emprzedd.minecraftartifacts.items.ArtifactItem;
 
@@ -17,9 +15,6 @@ public class ItemTracker implements Listener{
 	
 	@EventHandler
 	public void onDrop(PlayerDropItemEvent e) {
-		/*if(isTracked && isArtifact(e.getItemDrop().getItemStack()) && isSelectedArtifact(e.getItemDrop().getItemStack())) {	
-			logger.logToFile("("+FileLogger.entityLocation(e.getPlayer())+")"+getRawName()+" was dropped by '" + e.getPlayer().getName() + "' or CustomName:'" + e.getPlayer().getCustomName()+"'.");
-		}*/
 		ArtifactItem artifact = ArtifactItem.convertItemToArtifact(e.getItemDrop().getItemStack());
 		if(artifact != null && artifact.canTrack) {
 			artifact.getLogger().logToFile("("+FileLogger.entityLocation(e.getPlayer())+")"+artifact.getRawName()+" was dropped by '" + e.getPlayer().getName() + "'.");
@@ -28,9 +23,6 @@ public class ItemTracker implements Listener{
 	
 	@EventHandler
 	public void onPickup(EntityPickupItemEvent e) {
-		/*if(isTracked && isArtifact(e.getItem().getItemStack()) && isSelectedArtifact(e.getItem().getItemStack())) {
-			logger.logToFile("("+FileLogger.entityLocation(e.getEntity())+")"+getRawName()+" was picked up by '" + e.getEntity().getName() + "' or CustomName:'" + e.getEntity().getCustomName()+"'.");
-		}*/
 		ArtifactItem artifact = ArtifactItem.convertItemToArtifact(e.getItem().getItemStack());
 		if(artifact != null && artifact.canTrack) {
 			artifact.getLogger().logToFile("("+FileLogger.entityLocation(e.getEntity())+")"+artifact.getRawName()+" was picked up by '" + e.getEntity().getName() + ".");
@@ -72,7 +64,7 @@ public class ItemTracker implements Listener{
 	
     //tracks leave
 	@EventHandler
-	public void onJoin(PlayerQuitEvent e) {
+	public void onLeave(PlayerQuitEvent e) {
     	ArtifactItem[] artifacts = ArtifactItem.findArtifacts(e.getPlayer().getInventory());
     	for(ArtifactItem artItem : artifacts) {
     		if(artItem !=null && artItem.canTrack) {

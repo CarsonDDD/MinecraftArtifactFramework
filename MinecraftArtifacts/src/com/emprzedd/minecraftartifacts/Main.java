@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.emprzedd.minecraftartifacts.items.AdminStaff;
 import com.emprzedd.minecraftartifacts.items.BanHammer;
 import com.emprzedd.minecraftartifacts.items.BlessedDagger;
+import com.emprzedd.minecraftartifacts.items.DragonEgg;
 import com.emprzedd.minecraftartifacts.items.LoreWoodAxe;
 import com.emprzedd.minecraftartifacts.items.MessengerBoots;
 
@@ -32,6 +33,7 @@ public class Main extends JavaPlugin{
 		 	getServer().getPluginManager().registerEvents(new LoreWoodAxe(), this);
 		 	getServer().getPluginManager().registerEvents(new MessengerBoots(), this);
 		 	getServer().getPluginManager().registerEvents(new BlessedDagger(), this);
+		 	getServer().getPluginManager().registerEvents(new DragonEgg(), this);
 		 	
 		 	
 		 	getCommand("artifact").setExecutor(new CommandHandler(new ArtifactSelectionGUI()));

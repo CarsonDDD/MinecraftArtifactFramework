@@ -7,23 +7,19 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import com.emprzedd.minecraftartifacts.items.ArtifactItem;
 
@@ -36,7 +32,7 @@ public class ItemInventoryHandler implements Listener{
     }
     
     private void screamAtPlayer(Player player, String message) {
-    	player.sendMessage(ChatColor.DARK_PURPLE + ""+ChatColor.BOLD + message);
+    	player.sendMessage(ChatColor.translateAlternateColorCodes('&', ArtifactItem.warnMessageFormat + message));
 		player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.MASTER,0.15f,3f);
 		
     }
@@ -57,7 +53,7 @@ public class ItemInventoryHandler implements Listener{
 					if(firstPlayer == null)
 						firstPlayer = player; 
 					
-					screamAtPlayer(player,"The Egg is to powerful to be stored... in a hopper...");
+					screamAtPlayer(player,"This Artifact is to powerful to be stored... in a hopper...");
 				}	
 			}
 			
@@ -89,7 +85,7 @@ public class ItemInventoryHandler implements Listener{
         		ArtifactItem artifact = ArtifactItem.convertItemToArtifact(e.getCurrentItem());
 
                 if (artifact != null && !artifact.canPlaceInInventory) {
-    				screamAtPlayer((Player)e.getWhoClicked(),"The Egg is to powerful to be stored...");
+    				screamAtPlayer((Player)e.getWhoClicked(),"This Artifact is to powerful to be stored...");
                     e.setCancelled(true);
                 }
             }
@@ -108,7 +104,7 @@ public class ItemInventoryHandler implements Listener{
             //ItemStack onCursor = e.getCursor();
             ArtifactItem artifact = ArtifactItem.convertItemToArtifact(e.getCursor());
             if (e.getClickedInventory() != null && artifact != null && !artifact.canPlaceInInventory){
-            	screamAtPlayer((Player)e.getWhoClicked(),"The Egg is to powerful to be stored...");
+            	screamAtPlayer((Player)e.getWhoClicked(),"This Artifact is to powerful to be stored...");
                 e.setCancelled(true);     	
             }  
         }
@@ -127,7 +123,7 @@ public class ItemInventoryHandler implements Listener{
             // Now we go through all of the slots and check if the slot is inside our inventory (using the inventory size as reference)
             for (int i : e.getRawSlots()) {
                 if (i < inventorySize) {
-                	screamAtPlayer((Player)e.getWhoClicked(),"The Egg is to powerful to be stored...");
+                	screamAtPlayer((Player)e.getWhoClicked(),"This Artifact is to powerful to be stored...");
                     e.setCancelled(true);
                     break;
                 }
@@ -149,6 +145,7 @@ public class ItemInventoryHandler implements Listener{
             if(((mainHand != null && !mainHand.canPlaceInItemFrame)
             		|| (offHand != null && !offHand.canPlaceInItemFrame && e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR)) 
             		&& frame.getItem().getType() == Material.AIR) {
+            	screamAtPlayer(e.getPlayer(),"This Artifact is to powerful to be stored... In an item frame...");
     			e.setCancelled(true);
     		}
         }
@@ -158,6 +155,11 @@ public class ItemInventoryHandler implements Listener{
     
     
     //if players inv is full when the e is canceled the item vanishes
+    /*
+     * 
+     * NEEDS ITEM LOSE FIX...later
+     * 
+     * */
     //blocks drops
     @EventHandler
     public void onPlayerDrop(PlayerDropItemEvent e) {
@@ -165,6 +167,7 @@ public class ItemInventoryHandler implements Listener{
 		if(artifact != null && !artifact.canDropItem) {
 			Player player = e.getPlayer();
 			if(player.getInventory().getSize() != player.getInventory().getMaxStackSize()) {
+				screamAtPlayer(e.getPlayer(),"This Artifact is bound to you...");
 				e.setCancelled(true);
 			}
 		}

@@ -37,6 +37,8 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public boolean canSmite = true;
 	public boolean canRename = false;
 	
+	public static String warnMessageFormat = "&e&o";
+	
 	protected abstract void init();
 	
 	private FileLogger logger;
@@ -136,7 +138,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
     }
     
 	public boolean isSelectedArtifact(ItemStack item) {
-    	if((item != null&&item.getType() != Material.AIR) && item.getItemMeta() != null && item.getItemMeta().getAttributeModifiers() != null) {
+    	if((item != null&&item.getType() != Material.AIR) && item.getItemMeta() != null && item.getItemMeta().getAttributeModifiers() != null && item.getItemMeta().getAttributeModifiers(Attribute.ZOMBIE_SPAWN_REINFORCEMENTS) != null) {
     		for(AttributeModifier att : item.getItemMeta().getAttributeModifiers(Attribute.ZOMBIE_SPAWN_REINFORCEMENTS)) {
             	if(att.getName().equals(ITEM_ID))
             		return true;
