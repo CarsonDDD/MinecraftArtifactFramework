@@ -1,6 +1,5 @@
 package com.emprzedd.minecraftartifacts.items;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 

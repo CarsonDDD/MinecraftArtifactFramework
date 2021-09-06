@@ -47,5 +47,6 @@ public class MessengerBoots extends ArtifactItem{
 		this.canPlaceInItemFrame=true;
 		this.canPlaceInInventory=false;
 		this.canRename=false;
+		//.
 	}
 }

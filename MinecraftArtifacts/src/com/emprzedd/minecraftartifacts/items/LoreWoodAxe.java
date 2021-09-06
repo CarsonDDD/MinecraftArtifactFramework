@@ -51,6 +51,7 @@ public class LoreWoodAxe extends ArtifactItem{
 		this.canPlaceInItemFrame=true;
 		this.canPlaceInInventory=false;
 		this.canRename=false;
+		//.
 	}
 
 }

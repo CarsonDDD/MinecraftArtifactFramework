@@ -183,7 +183,7 @@ public class BlessedDagger extends ArtifactItem{
 	            }
 	            else if(killOption >=12 && killOption <=17+(removeBonus*2)){//%25 and scaling with bonus
 	                removeRandomEnchant(item,r.nextInt(ENCHANTVARIETY)+1+(removeBonus*2));
-	                killer.sendMessage(ChatColor.LIGHT_PURPLE+"A faint humming noise comes from the Shard.");
+	                killer.sendMessage(ChatColor.LIGHT_PURPLE+"A faint humming noise comes from the Shard.");//e
 	                killer.playSound(killer.getLocation(), Sound.ENTITY_ZOMBIE_HURT, SoundCategory.MASTER,1f,2f);
 	            }
 	            else{//%15
