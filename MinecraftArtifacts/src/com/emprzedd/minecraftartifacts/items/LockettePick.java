@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class LockettePick extends ArtifactItem{
 
 	float successChance = 0.25f;
@@ -45,7 +47,7 @@ public class LockettePick extends ArtifactItem{
 		        	player.sendMessage(MESSAGE_SUCCESS);
 		        }
 		        else {
-		        	player.sendMessage(MESSAGE_FAIL);
+		        	player.sendMessage(ChatColor.translateAlternateColorCodes('&', warnMessageFormat+MESSAGE_FAIL));
 		        }
 		        
 		        player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);	
