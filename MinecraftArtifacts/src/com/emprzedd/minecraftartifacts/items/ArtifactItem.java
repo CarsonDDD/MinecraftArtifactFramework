@@ -162,9 +162,9 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
     	for(ArtifactItem art : ArtifactList) {
     		if(art.isSelectedArtifact(item)) {
     			//change item meta to og, this should only be for event code
-    			ItemMeta oldMeta = item.getItemMeta();
-    			art.setItemMeta(oldMeta);
-    			return art;
+    			ArtifactItem newItem = (ArtifactItem) art.clone();
+    			newItem.setItemMeta(item.getItemMeta());
+    			return newItem;
     		}
     	}
     	return null;
