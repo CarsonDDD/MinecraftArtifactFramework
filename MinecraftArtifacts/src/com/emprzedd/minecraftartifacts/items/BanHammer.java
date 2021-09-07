@@ -49,8 +49,9 @@ public class BanHammer extends ArtifactItem implements Listener{
 		newMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(),"asss",10000.0,Operation.ADD_NUMBER,EquipmentSlot.HAND));
 	
 		this.setItemMeta(newMeta);
-		this.canSmite = true;
-		this.canPlace = false;
+		super.canSmite = true;
+		super.canTrack = true;
+		super.canDropItem = true;
 	}
 	
 	

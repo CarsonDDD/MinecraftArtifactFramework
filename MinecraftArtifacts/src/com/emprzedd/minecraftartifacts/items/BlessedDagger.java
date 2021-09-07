@@ -84,11 +84,11 @@ public class BlessedDagger extends ArtifactItem{
 		newMeta.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(UUID.randomUUID(),"asss",69,Operation.ADD_NUMBER,EquipmentSlot.HAND));
 	
 		this.setItemMeta(newMeta);
-		this.canSmite = false;
-		this.canDropItem = true;
-		this.canPlaceInItemFrame=true;
-		this.canPlaceInInventory=false;
-		this.canRename=false;
+		
+		super.canDropItem = true;
+		super.canPlaceInItemFrame=true;
+		super.canTrack = true;
+		super.canPlaceInInventory = true;
 	}
 	
 	private void removeRandomEnchant(ItemStack item, int amount) {

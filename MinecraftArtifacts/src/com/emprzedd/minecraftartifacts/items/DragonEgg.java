@@ -57,12 +57,9 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		
 		setItemMeta(newMeta);
 		
-		this.canSmite = false;
-		this.canDropItem = true;
-		this.canPlace = true;
-		this.canPlaceInItemFrame=false;
-		this.canPlaceInInventory=false;
-		this.canRename=false;
+		super.canDropItem = true;
+		super.canPlace = true;
+		super.canTrack = true;
 	}
 	
 	

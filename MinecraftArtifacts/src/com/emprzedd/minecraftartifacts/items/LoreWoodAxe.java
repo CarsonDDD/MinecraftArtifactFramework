@@ -46,11 +46,10 @@ public class LoreWoodAxe extends ArtifactItem{
 	
 		this.setItemMeta(newMeta);
 		
-		this.canSmite = false;
-		this.canDropItem = true;
-		this.canPlaceInItemFrame=true;
-		this.canPlaceInInventory=false;
-		this.canRename=false;
+		super.canDropItem = true;
+		super.canPlaceInItemFrame=true;
+		super.canTrack = true;
+		super.canPlaceInInventory = true;
 		//.
 	}
 

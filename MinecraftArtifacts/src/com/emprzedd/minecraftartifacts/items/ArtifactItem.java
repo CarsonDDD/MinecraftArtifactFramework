@@ -29,12 +29,12 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	private String ITEM_ID;
 	
 	//might need to set a custom att tag for these values to quickly check these without needing to cycle though everything
-	public boolean canTrack = true;
+	public boolean canTrack = false;
 	public boolean canPlaceInInventory = false;
 	public boolean canDropItem = false;
 	public boolean canPlaceInItemFrame = false;
 	public boolean canPlace = false;  
-	public boolean canSmite = true;
+	public boolean canSmite = false;
 	public boolean canRename = false;
 	
 	public static String warnMessageFormat = "&e&o";
@@ -56,6 +56,15 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 		
 		//https://codepen.io/0biwan/pen/ggVemP
 		//setDisplayName(ChatColor.translateAlternateColorCodes('&', "&c&l&o⚡&6&o&l"+rawName+"&r&c&l&o⚡"));
+		
+		/*
+		 * 
+		 * &c&l&o⚡&6&o&lTestItem&r&c&l&o⚡
+		 * &5&l&5║&5&lT&dhe &5&lD&dragon &5&lE&dgg&5║
+		 * &9&l&o&nL&b&a&9ore Wood Axe
+		 * &a&o«Magic Sand»
+	   	 * &7&oLock pick
+		 * */
 		setDisplayName(ChatColor.translateAlternateColorCodes('&', rawName));
 		setArtifactLore(lore);
 		
