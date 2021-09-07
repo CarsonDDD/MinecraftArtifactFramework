@@ -106,9 +106,11 @@ public class DragonEgg extends ArtifactItem implements Listener {
 			
 			PotionEffect speed = new PotionEffect(PotionEffectType.SPEED,10,1,false,false,false);
 			PotionEffect bad = new PotionEffect(PotionEffectType.BAD_OMEN,10,10,false,false,false);
+			PotionEffect hunger = new PotionEffect(PotionEffectType.HUNGER,10,1,false,false,false);
 			
 			speed.apply(p);
 			bad.apply(p);
+			hunger.apply(p);
 		}
 	}
 	
@@ -138,6 +140,7 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		}
 	}
 	
+	//custom flight death message
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e) {
 		if(isEggHolder(e.getEntity()) && e.getDeathMessage().contains("withered")){
