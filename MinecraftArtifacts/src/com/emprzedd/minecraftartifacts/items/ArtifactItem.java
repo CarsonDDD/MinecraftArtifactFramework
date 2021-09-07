@@ -37,7 +37,8 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public boolean canSmite = false;
 	public boolean canRename = false;
 	
-	public static String warnMessageFormat = "&e&o";
+	public static String FORMAT_WARN = "&e&o";
+	public static String FORMAT_ALLOW = "&a&o";
 	
 	protected abstract void init();
 	

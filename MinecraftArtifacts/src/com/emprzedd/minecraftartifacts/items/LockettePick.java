@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -23,12 +24,15 @@ public class LockettePick extends ArtifactItem{
 	}
 	
 	public LockettePick() {
-		this(ArtifactItem.getNameFormatUniqueTemplate("lock pick"),Material.ARROW,"used to open locks");
+		this(ArtifactItem.getNameFormatUniqueTemplate("Lock picking tools"),Material.FLINT_AND_STEEL,"used to open locks");
 	}
 
 	@Override
 	protected void init() {
-		// TODO Auto-generated method stub
+		
+		this.addUnsafeEnchantment(Enchantment.VANISHING_CURSE, 1);
+		
+		
 		super.canDropItem = true;
 		super.canPlaceInItemFrame=true;
 		super.canPlaceInInventory = true;
@@ -39,7 +43,7 @@ public class LockettePick extends ArtifactItem{
 		
 		if(isSelectedArtifact(e.getPlayer().getInventory().getItemInMainHand()) && e.getClickedBlock().getState() instanceof Sign) {
 			Block block = e.getClickedBlock();
-		    if(((Sign)block.getState()).getLine(0).equalsIgnoreCase(TARGET_SIGN)) {
+		    if(((Sign)block.getState()).getLine(0).toLowerCase().contains(TARGET_SIGN.toLowerCase())) {
 				Player player = e.getPlayer();
 		        double num = Math.random();
 		        if(num < successChance) {
@@ -47,7 +51,7 @@ public class LockettePick extends ArtifactItem{
 		        	player.sendMessage(MESSAGE_SUCCESS);
 		        }
 		        else {
-		        	player.sendMessage(ChatColor.translateAlternateColorCodes('&', warnMessageFormat+MESSAGE_FAIL));
+		        	player.sendMessage(ChatColor.translateAlternateColorCodes('&', FORMAT_WARN+MESSAGE_FAIL));
 		        }
 		        
 		        player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);	

@@ -32,7 +32,7 @@ public class ItemStopRename implements Listener{
                 	e.setCancelled(true);
                 }*/
                 if(artifact!=null && !artifact.canRename) {
-                	e.getWhoClicked().sendMessage(ChatColor.translateAlternateColorCodes('&', ArtifactItem.warnMessageFormat +"You are not worthy enough to rename " + artifact.getDisplayName()));
+                	e.getWhoClicked().sendMessage(ChatColor.translateAlternateColorCodes('&', ArtifactItem.FORMAT_WARN +"You are not worthy enough to rename " + artifact.getDisplayName()));
                 	e.setCancelled(true);
                 }
                 return;
