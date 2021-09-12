@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -111,6 +112,15 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		}
 	}
 	
+	//Player roawrrrr
+	@EventHandler
+	public void playerRAWRRRSXXXDDDD(AsyncPlayerChatEvent e) {
+		if(isEggHolder(e.getPlayer())) {
+			e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 5f, 1.5f);
+			e.setMessage(ChatColor.ITALIC+e.getMessage());
+		}
+	}
+	
 	
 	//allows player to fly when sneaking
 	@EventHandler
@@ -166,7 +176,7 @@ public class DragonEgg extends ArtifactItem implements Listener {
 	
 	@EventHandler
 	public void onEggDeath(EntityDamageByEntityEvent e) {
-		if(e.getEntity() instanceof Player && isEggInInventory(((Player)e.getEntity()).getInventory())) {
+		if(e.getEntity() instanceof Player && (isEggInInventory(((Player)e.getEntity()).getInventory()) || isEggHolder((Player)e.getEntity()))) {
 
 			Player player = (Player)e.getEntity();
 			if(e.getFinalDamage() < player.getHealth())
