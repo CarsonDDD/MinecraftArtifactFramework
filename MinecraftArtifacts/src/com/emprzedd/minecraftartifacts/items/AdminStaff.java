@@ -28,11 +28,15 @@ public class AdminStaff extends ArtifactItem{
 		this.addUnsafeEnchantment(Enchantment.DAMAGE_ARTHROPODS, 256);
 		
 		ItemMeta newMeta = this.getItemMeta();
-		
 		newMeta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, new AttributeModifier(UUID.randomUUID(),"ass",60.0,Operation.ADD_NUMBER,EquipmentSlot.HAND));
-		
 		this.setItemMeta(newMeta);
+		
 		this.canSmite = true;
+	}
+
+	@Override
+	protected void reloadConfig() {
+		// TODO Auto-generated method stub
 	}
 	
 

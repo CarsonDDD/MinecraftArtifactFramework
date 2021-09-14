@@ -46,9 +46,4 @@ public class Main extends JavaPlugin{
 	    public void onDisable(){
 	        getServer().getConsoleSender().sendMessage(ChatColor.RED + "Minecraft Artifacts Stopped");
 	    }
-	    
-	    private void loadConfig(){
-	    	
-	    }
-	    
 }

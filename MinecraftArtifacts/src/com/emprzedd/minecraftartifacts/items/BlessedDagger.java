@@ -20,16 +20,26 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-
+/*
+ * The Shard of the Blessed Dagger
+ * 
+ * tbh i was way to fucked when i wrote this, i have no clue why this is like this or what it is.
+ * rewrite is needed
+ * 
+ * Tier: 
+ * 
+ * Desc:
+ * On player kill, change enchants on item.
+ * */
 public class BlessedDagger extends ArtifactItem{
-	
 	public BlessedDagger(String rawName, Material type, String lore) {
 		super(rawName,rawName, type, lore);
 	}
-	
 	public BlessedDagger() {
 		this(ArtifactItem.getNameFormatUniqueTemplate("Shard of The Blessed Dagger"),Material.FLINT,"&e&oThe only remaining peice of the &nB&e&olessed Dagger.");
 	}
+	
+	
 	
 	Enchantment[] enchantmentArray = new Enchantment[] {
 			//12
@@ -78,17 +88,20 @@ public class BlessedDagger extends ArtifactItem{
 		this.addUnsafeEnchantment(Enchantment.LUCK, 1);
 		
 		ItemMeta newMeta = this.getItemMeta();
-		
 		newMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(),"asss",6,Operation.ADD_NUMBER,EquipmentSlot.HAND));
 		newMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(),"asss",-0.75,Operation.ADD_SCALAR,EquipmentSlot.HAND));
 		newMeta.addAttributeModifier(Attribute.GENERIC_LUCK, new AttributeModifier(UUID.randomUUID(),"asss",69,Operation.ADD_NUMBER,EquipmentSlot.HAND));
-	
 		this.setItemMeta(newMeta);
 		
 		super.canDropItem = true;
 		super.canPlaceInItemFrame=true;
 		super.canTrack = true;
 		super.canPlaceInInventory = true;
+	}
+	
+	@Override
+	protected void reloadConfig() {
+		// TODO Auto-generated method stub
 	}
 	
 	private void removeRandomEnchant(ItemStack item, int amount) {

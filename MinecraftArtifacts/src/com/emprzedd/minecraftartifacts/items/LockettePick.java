@@ -21,10 +21,28 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
+/*
+ * Lockette Pick
+ * 
+ * Still in testing phases
+ * 
+ * Tier: lowest?
+ * 
+ * Desc:
+ * "locks" have health.
+ * tool used to break private signs, either by picking it or by force
+ * */
 public class LockettePick extends ArtifactItem{
-
+	public LockettePick(String rawName, Material type, String lore) {
+		super(rawName,rawName, type, lore);
+	}
+	public LockettePick() {
+		this(ArtifactItem.getNameFormatUniqueTemplate("Theif tools."),Material.FLINT_AND_STEEL,"Used to open locks.");
+	}
+	
+	
+	
 	float successChance = 0.01f;
-	//int DURABILITY_COST =16;
 	int startingDurability = 64;
 	int costDurability = 64/8;
 	
@@ -38,33 +56,31 @@ public class LockettePick extends ArtifactItem{
 	String MESSAGE_FAIL = "lock pick attemped failed";
 	
 	Hashtable<Location,Integer> lockHealth;
-	
-	public LockettePick(String rawName, Material type, String lore) {
-		super(rawName,rawName, type, lore);
-	}
-	
-	public LockettePick() {
-		this(ArtifactItem.getNameFormatUniqueTemplate("Theif tools."),Material.FLINT_AND_STEEL,"Used to open locks.");
-	}
 
 	@Override
 	protected void init() {
 		lockHealth = new Hashtable<Location, Integer>();
 		
 		this.addUnsafeEnchantment(Enchantment.VANISHING_CURSE, 1);
+		
 		super.canDropItem = true;
 		super.canPlaceInItemFrame=true;
 		super.canPlaceInInventory = true;
 	}
 	
+	@Override
+	protected void reloadConfig() {
+		// TODO Auto-generated method stub
+	}
+	
 	
 	@EventHandler
 	public void onUnlockAttempt(PlayerInteractEvent e) {
-		
 		if(!(isSelectedArtifact(e.getPlayer().getInventory().getItemInMainHand()) && e.getClickedBlock().getState() instanceof Sign && ((Sign)e.getClickedBlock().getState()).getLine(0).toLowerCase().contains(TARGET_SIGN.toLowerCase())))
 			return;
 		
 		e.setCancelled(true);
+		
 		Player player = e.getPlayer();
 		ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 		Location signLocation = e.getClickedBlock().getLocation();
@@ -142,7 +158,7 @@ public class LockettePick extends ArtifactItem{
 		player.playSound(player.getLocation(), sound, vol, pitch);
 	}
 	
-	//remove player later
+	//remove player later, only here for testing
 	private void removeAttempts(ItemStack item, int amount, Player player) {
 		//remove dur, flint and steel has default 64				
 		ItemMeta meta = item.getItemMeta();

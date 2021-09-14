@@ -11,16 +11,26 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/*
+ * Lore wood axe
+ * 
+ * legacy item, used as a test for when first making plugin
+ * 
+ * Tier: good wood
+ * 
+ * Desc:
+ * A wood axe with good stats
+ * */
 public class LoreWoodAxe extends ArtifactItem{
-
 	public LoreWoodAxe(String rawName, Material type, String lore) {
 		super(rawName,rawName, type, lore);
 	}
-	
 	public LoreWoodAxe() {
 		this(ArtifactItem.getNameFormatUniqueTemplate("Lore Wood Axe"),Material.WOODEN_AXE,"&e&oAxe made from &nL&e&oore Wood and imbued with magic.");
 	}
 
+	
+	
 	@Override
 	protected void init() {
 		this.addUnsafeEnchantment(Enchantment.DAMAGE_ARTHROPODS, 5);
@@ -36,21 +46,22 @@ public class LoreWoodAxe extends ArtifactItem{
 
 		
 		ItemMeta newMeta = this.getItemMeta();
-		
 		newMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		
 		newMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(),"asss",10.0,Operation.ADD_NUMBER,EquipmentSlot.HAND));
 		newMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(),"asss",6.0,Operation.ADD_NUMBER,EquipmentSlot.HAND));
 		newMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(UUID.randomUUID(),"asss",10.0,Operation.ADD_NUMBER,EquipmentSlot.HAND));
 		newMeta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(),"asss",4.0,Operation.ADD_NUMBER,EquipmentSlot.HAND));
-	
 		this.setItemMeta(newMeta);
 		
 		super.canDropItem = true;
 		super.canPlaceInItemFrame=true;
 		super.canTrack = true;
 		super.canPlaceInInventory = true;
-		//.
+	}
+
+	@Override
+	protected void reloadConfig() {
+		// TODO Auto-generated method stub
 	}
 
 }

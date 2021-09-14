@@ -13,7 +13,6 @@ public class ArtifactSelectionGUI implements InventoryHolder{
     public ArtifactSelectionGUI(){
         //create logic to handle more then 9 items
         inv = Bukkit.createInventory(this,9*4, "§4Artifacts");
-
     }
 
     @Override
