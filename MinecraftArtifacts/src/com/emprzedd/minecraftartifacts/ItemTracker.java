@@ -32,10 +32,10 @@ public class ItemTracker implements Listener{
 	//tracks interact
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
-    	ArtifactItem[] artifacts = ArtifactItem.findArtifacts(e.getPlayer().getInventory());
+    	ArtifactItem[] artifacts = ArtifactItem.findAllArtifacts(e.getPlayer().getInventory());
     	for(ArtifactItem artItem : artifacts) {
     		if(artItem !=null && artItem.canTrack) {
-    			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getPlayer())+")"+artItem.getRawName()+" was in the inventory of '" + e.getPlayer().getName() + " when interacting.");
+    			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getPlayer())+")"+artItem.getRawName()+" was in the inventory of '" + e.getPlayer().getName() + " when interacting("+e.getEventName()+")");
     		}
     	}
 	}
@@ -43,7 +43,7 @@ public class ItemTracker implements Listener{
     //tracks iventoy use
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-    	ArtifactItem[] artifacts = ArtifactItem.findArtifacts(e.getWhoClicked().getInventory());
+    	ArtifactItem[] artifacts = ArtifactItem.findAllArtifacts(e.getWhoClicked().getInventory());
     	for(ArtifactItem artItem : artifacts) {
     		if(artItem !=null && artItem.canTrack) {
     			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getWhoClicked())+")"+artItem.getRawName()+" was in the inventory of '" + e.getWhoClicked().getName() + ".");
@@ -54,7 +54,7 @@ public class ItemTracker implements Listener{
     //tracks join
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
-    	ArtifactItem[] artifacts = ArtifactItem.findArtifacts(e.getPlayer().getInventory());
+    	ArtifactItem[] artifacts = ArtifactItem.findAllArtifacts(e.getPlayer().getInventory());
     	for(ArtifactItem artItem : artifacts) {
     		if(artItem !=null && artItem.canTrack) {
     			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getPlayer())+")"+e.getPlayer().getName()+" logged on with '" + artItem.getRawName() + ".");
@@ -65,7 +65,7 @@ public class ItemTracker implements Listener{
     //tracks leave
 	@EventHandler
 	public void onLeave(PlayerQuitEvent e) {
-    	ArtifactItem[] artifacts = ArtifactItem.findArtifacts(e.getPlayer().getInventory());
+    	ArtifactItem[] artifacts = ArtifactItem.findAllArtifacts(e.getPlayer().getInventory());
     	for(ArtifactItem artItem : artifacts) {
     		if(artItem !=null && artItem.canTrack) {
     			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getPlayer())+")"+e.getPlayer().getName()+" logged off with '" + artItem.getRawName() + ".");

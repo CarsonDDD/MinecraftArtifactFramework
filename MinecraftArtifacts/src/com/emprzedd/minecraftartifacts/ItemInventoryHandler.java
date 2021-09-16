@@ -34,7 +34,6 @@ public class ItemInventoryHandler implements Listener{
     private void screamAtPlayer(Player player, String message) {
     	player.sendMessage(ChatColor.translateAlternateColorCodes('&', ArtifactItem.FORMAT_WARN + message));
 		player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.MASTER,0.15f,3f);
-		
     }
 
     //blocks hoppers
