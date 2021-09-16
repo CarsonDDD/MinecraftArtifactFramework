@@ -15,7 +15,7 @@ public class ItemSmite implements Listener{
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 
-		if(!e.getPlayer().isOp()) {
+		if(!e.getPlayer().hasPermission("MinecraftArtifacts.Admin")) {
 			for(ItemStack item : e.getPlayer().getInventory()) {
 				ArtifactItem artifact = ArtifactItem.convertItemToArtifact(item);				
 				if(artifact != null && artifact.canSmite) {
