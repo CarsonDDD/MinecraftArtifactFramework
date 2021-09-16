@@ -7,9 +7,15 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /*
  * Lore wood axe
@@ -21,15 +27,21 @@ import org.bukkit.inventory.meta.ItemMeta;
  * Desc:
  * A wood axe with good stats
  * */
-public class LoreWoodAxe extends ArtifactItem{
+public class LoreWoodAxe extends ArtifactItem implements Listener{
 	public LoreWoodAxe(String rawName, Material type, String lore) {
 		super(rawName,rawName, type, lore);
 	}
 	public LoreWoodAxe() {
-		this(ArtifactItem.getNameFormatUniqueTemplate("Lore Wood Axe"),Material.WOODEN_AXE,"&e&oAxe made from &nL&e&oore Wood and imbued with magic.");
+		this(formatName(Rarity.UNIQUE, "Lore Wood Axe"),Material.WOODEN_AXE,"&e&oAxe made from &nL&e&oore Wood and imbued with magic.");
 	}
 
 	
+	
+	PotionEffect fatigue = new PotionEffect(PotionEffectType.SLOW_DIGGING,60,1,false,false,false);
+	PotionEffect fatigue2 = new PotionEffect(PotionEffectType.SLOW_DIGGING,60,2,false,false,false);
+	
+	PotionEffect slow = new PotionEffect(PotionEffectType.SLOW,60,1,false,false,false);
+	PotionEffect slow2 = new PotionEffect(PotionEffectType.SLOW,60,2,false,false,false);
 	
 	@Override
 	protected void init() {
@@ -63,5 +75,38 @@ public class LoreWoodAxe extends ArtifactItem{
 	protected void reloadConfig() {
 		// TODO Auto-generated method stub
 	}
+	
+	
+	private boolean giveWeightPenelty(Player player) {
+		//wrote like this so i can change formula later
+		int inventorySize = player.getInventory().getSize()-5;//5 for armor slots and shld
+		int penelty = inventorySize/9;
+
+		if(penelty > 0) {
+			slow.apply(player);
+		}
+		if(penelty > 1) {
+			fatigue.apply(player);
+		}
+		if(penelty > 2) {
+			slow2.apply(player);
+		}
+		
+		return true;
+	}
+	
+	
+	@EventHandler
+	public void attackWeightCheck(EntityDamageByEntityEvent e) {
+	    if (!(e.getDamager() instanceof Player))
+	    	return;
+	    Player player = (Player)e.getDamager();
+		if(!super.hasInInventory(player.getInventory()))
+			return;
+		
+		giveWeightPenelty(player);
+	}
+	
+	
 
 }
