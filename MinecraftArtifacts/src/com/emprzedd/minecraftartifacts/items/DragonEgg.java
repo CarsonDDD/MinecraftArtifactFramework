@@ -14,6 +14,8 @@ import org.bukkit.Particle.DustOptions;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -53,7 +55,7 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		super(rawName,rawName, type, lore);
 	}
 	public DragonEgg() {
-		this(ArtifactItem.getNameFormatAdminTemplate("The Dragon Egg"),Material.DRAGON_EGG,"&e&oMake lore tag later");
+		this(formatName(Rarity.DIVINE, "THE DRAGON EGG"),Material.DRAGON_EGG,"&e&oThe start of something new. . .");
 	}
 
 	
@@ -86,15 +88,9 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		return (p.getInventory().getHelmet() != null && isSelectedArtifact(p.getInventory().getHelmet()));
 	}
 	
+	//Generic, covers all eggs, which there SHOULD only be one in existance, the tracker can check for dups
 	private boolean isEggInInventory(Inventory inv) {
 		return inv.contains(Material.DRAGON_EGG);
-    	/*for(ItemStack item : inv.getContents()) {
-    		ArtifactItem artifact = convertItemToArtifact(item);
-    		if(artifact !=null && artifact instanceof DragonEgg) {
-    			return true;
-    		}
-    	}
-    	return false;*/
 	}
 	
 	//reduces damage delt, and increase damage taken
@@ -121,7 +117,7 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		DustOptions dustOptions = new DustOptions(Color.fromRGB(255, 0, 225), 1);
 		p.spawnParticle(Particle.REDSTONE, p.getLocation(), 2, dustOptions);
 		
-		PotionEffect speed = new PotionEffect(PotionEffectType.SPEED,10,1,false,false,false);
+		PotionEffect speed = new PotionEffect(PotionEffectType.SPEED,15,1,false,false,false);
 		PotionEffect bad = new PotionEffect(PotionEffectType.BAD_OMEN,10,10,false,false,false);
 		PotionEffect hunger = new PotionEffect(PotionEffectType.HUNGER,10,1,false,false,false);
 		
@@ -129,20 +125,6 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		bad.apply(p);
 		hunger.apply(p);
 		
-		/*if(isEggHolder(e.getPlayer())) {
-			Player p = e.getPlayer();
-			
-			DustOptions dustOptions = new DustOptions(Color.fromRGB(255, 0, 225), 1);
-			p.spawnParticle(Particle.REDSTONE, p.getLocation(), 2, dustOptions);
-			
-			PotionEffect speed = new PotionEffect(PotionEffectType.SPEED,10,1,false,false,false);
-			PotionEffect bad = new PotionEffect(PotionEffectType.BAD_OMEN,10,10,false,false,false);
-			PotionEffect hunger = new PotionEffect(PotionEffectType.HUNGER,10,1,false,false,false);
-			
-			speed.apply(p);
-			bad.apply(p);
-			hunger.apply(p);
-		}*/
 	}
 	
 	//Player roawrrrr
@@ -151,7 +133,13 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		if(!isEggHolder(e.getPlayer()))
 			return;
 		
-		e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 5f, 1.5f);
+		//raawr
+		for(Entity entity : e.getPlayer().getNearbyEntities(32, 32, 32))
+			if(entity.getType() == EntityType.PLAYER)
+				((Player) entity).playSound(e.getPlayer().getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 0.5f, 1.5f);
+		
+		e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 0.5f, 1.5f);
+		
 		e.setMessage(ChatColor.ITALIC+e.getMessage());
 	}
 	
@@ -172,28 +160,10 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		glow.apply(player);
 		wither.apply(player);
 		
-		DustOptions dustOptions = new DustOptions(Color.fromRGB(254, 254, 224), 1);
+		DustOptions dustOptions = new DustOptions(Color.fromRGB(150, 0, 150), 1);
 		player.spawnParticle(Particle.REDSTONE, player.getEyeLocation(), 10, dustOptions);	
 		
 		player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_FLAP, 2, 1.25f);
-		/*if(isEggHolder(e.getPlayer())) {
-			Player p = e.getPlayer();
-			
-			PotionEffect levitate = new PotionEffect(PotionEffectType.LEVITATION,3,15,false,false,false);
-			PotionEffect glow = new PotionEffect(PotionEffectType.GLOWING,1200,0,false,false,false);
-			PotionEffect invis = new PotionEffect(PotionEffectType.INVISIBILITY,40,1,false,false,false);
-			PotionEffect wither = new PotionEffect(PotionEffectType.WITHER,40,2,false,false,false);
-			
-			invis.apply(p);
-			levitate.apply(p);
-			glow.apply(p);
-			wither.apply(p);
-			
-			DustOptions dustOptions = new DustOptions(Color.fromRGB(254, 254, 224), 1);
-			p.spawnParticle(Particle.REDSTONE, p.getEyeLocation(), 10, dustOptions);	
-			
-			p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_FLAP, 2, 1.25f);
-		}*/
 	}
 	
 	//custom death message for if the player withers while flying
@@ -202,7 +172,7 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		if(!(isEggHolder(e.getEntity()) && e.getDeathMessage().contains("withered")))
 			return;
 		
-		e.setDeathMessage(ChatColor.RESET + e.getEntity().getDisplayName() + " was slain by the Dragon Egg.");
+		e.setDeathMessage(ChatColor.RESET + e.getEntity().getDisplayName() + ChatColor.RESET+" was slain by the Dragon Egg.");
 	}
 	
 	//displays who has the egg
@@ -211,7 +181,7 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		if(!isEggHolder(e.getPlayer()))
 			return;
 		
-		e.setJoinMessage(ChatColor.translateAlternateColorCodes('&', "&e&lThe Dragon Egg holder &a&n"+e.getPlayer().getDisplayName()+"&r&e&l joined the game."));
+		e.setJoinMessage(ChatColor.translateAlternateColorCodes('&', "&e&lThe Dragon Egg holder &a&n"+e.getPlayer().getName()+"&r&e&l joined the game."));
 		
 		e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.AMBIENT_SOUL_SAND_VALLEY_MOOD, 5f, 0.5f);
 		for(Player p : Bukkit.getOnlinePlayers())

@@ -29,7 +29,7 @@ public class MessengerBoots extends ArtifactItem{
 		super(rawName,rawName, type, lore);
 	}
 	public MessengerBoots() {
-		this(ArtifactItem.getNameFormatUniqueTemplate("Messenger's Boots"),Material.LEATHER_BOOTS,"&e&oQuick and agile.");
+		this(formatName(Rarity.RARE, "Messenger's Boots"),Material.LEATHER_BOOTS,"&e&oQuick and agile.");
 	}
 
 	

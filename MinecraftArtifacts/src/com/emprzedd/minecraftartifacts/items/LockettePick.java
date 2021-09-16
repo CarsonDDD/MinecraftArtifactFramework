@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
-import com.emprzedd.minecraftartifacts.Main;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -24,7 +23,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 /*
  * Lockette Pick
  * 
- * Still in testing phases
+ * Still in dev phase, paused since 2021/09/10
  * 
  * Tier: lowest?
  * 
@@ -37,7 +36,7 @@ public class LockettePick extends ArtifactItem{
 		super(rawName,rawName, type, lore);
 	}
 	public LockettePick() {
-		this(ArtifactItem.getNameFormatUniqueTemplate("Theif tools."),Material.FLINT_AND_STEEL,"Used to open locks.");
+		this(formatName(Rarity.COMMON, "Theif Tools"),Material.FLINT_AND_STEEL,"Right click to open a lock.");
 	}
 	
 	
@@ -49,7 +48,7 @@ public class LockettePick extends ArtifactItem{
 	int MAX_HEALTH = 500;
 	int baseDamage = 5;
 	
-	Main main;
+	//Main main;
 	
 	String TARGET_SIGN = "[private]";
 	String MESSAGE_SUCCESS = "lock was brocken";
@@ -116,7 +115,7 @@ public class LockettePick extends ArtifactItem{
 		double leatherBonus2 = e.getPlayer().getInventory().contains(Material.LEATHER_HELMET) ? 1.15 : 1;			//*1.1
 		double leatherBonus3 = e.getPlayer().getInventory().contains(Material.LEATHER_CHESTPLATE) ? 1.15 : 1;		//*1.1
 		double leatherBonus4 = e.getPlayer().getInventory().contains(Material.LEATHER_LEGGINGS) ? 1.15 : 1;			//*1.1
-		double ybonus = 1+(e.getPlayer().getLocation().getY()/100.0)*0.25;
+		//double ybonus = 1+(e.getPlayer().getLocation().getY()/100.0)*0.25;
 		
 		double luckBonus = e.getPlayer().hasPotionEffect(PotionEffectType.JUMP) ? 1: 0.5+(0.35*Math.random());
 																													// normal bouns=1.452 first big hit=52

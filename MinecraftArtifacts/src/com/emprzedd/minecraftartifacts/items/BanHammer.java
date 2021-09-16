@@ -30,7 +30,7 @@ public class BanHammer extends ArtifactItem implements Listener{
 		super(rawName,rawName, type, lore);
 	}
 	public BanHammer() {
-		this(ArtifactItem.getNameFormatAdminTemplate("Ban Hammer"),Material.OAK_SIGN,
+		this(formatName(Rarity.ADMIN, "Ban Hammer"),Material.OAK_SIGN,
 				ChatColor.ITALIC+"\"The path of the righteous man is beset on all sides\n"
 				+ ChatColor.ITALIC+"by the inequities of the selfish and the tyranny\n"
 				+ ChatColor.ITALIC+"of evil men. Blessed is he, who in the name of charity\n"

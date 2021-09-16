@@ -10,16 +10,24 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/*
+ * Admin staff
+ * 
+ * Tier: Admin
+ * 
+ * Desc:
+ * one hit KO everything.
+ * */
 public class AdminStaff extends ArtifactItem{
-
 	public AdminStaff(String rawName, Material type, String lore) {
 		super(rawName,rawName, type, lore);
 	}
-	
 	public AdminStaff() {
-		this(ArtifactItem.getNameFormatAdminTemplate("Admin Staff"),Material.BLAZE_ROD,"A powerful staff which can only\nbe wielded by a higher power.");
+		this(formatName(Rarity.ADMIN, "Admin Staff"),Material.BLAZE_ROD,"A powerful staff which can only\nbe wielded by a higher power.");
 	}
 
+	
+	
 	@Override
 	protected void init() {
 		this.addUnsafeEnchantment(Enchantment.VANISHING_CURSE, 1);
@@ -38,8 +46,4 @@ public class AdminStaff extends ArtifactItem{
 	protected void reloadConfig() {
 		// TODO Auto-generated method stub
 	}
-	
-
-	
-
 }

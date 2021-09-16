@@ -36,7 +36,7 @@ public class BlessedDagger extends ArtifactItem{
 		super(rawName,rawName, type, lore);
 	}
 	public BlessedDagger() {
-		this(ArtifactItem.getNameFormatUniqueTemplate("Shard of The Blessed Dagger"),Material.FLINT,"&e&oThe only remaining peice of the &nB&e&olessed Dagger.");
+		this(formatName(Rarity.UNIQUE, "Shard of The Blessed Dagger"),Material.FLINT,"&e&oSaid to be the only remaining peice of the &nB&e&olessed Dagger.");
 	}
 	
 	
