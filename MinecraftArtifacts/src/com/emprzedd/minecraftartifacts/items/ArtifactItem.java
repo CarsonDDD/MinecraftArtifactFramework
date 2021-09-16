@@ -1,7 +1,7 @@
 package com.emprzedd.minecraftartifacts.items;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
@@ -23,17 +23,9 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	
 	//nbt tags
 	private static final String ATTRIBUTE_TAG = "ass";	//stored hidden in nbt, used to check if ItemStack is an artifact
-	private String ITEM_ID;								//used to differentiate artifacts
+	private String ITEM_ID;			//used to differentiate artifacts
 	
-	
-	//text formatting https://codepen.io/0biwan/pen/ggVemP
-	/*
-	 * &c&l&o⚡&6&o&lTestItem&r&c&l&o⚡
-	 * &5&l&5║&5&lT&dhe &5&lD&dragon &5&lE&dgg&5║
-	 * &9&l&o&nL&b&a&9ore Wood Axe
-	 * &a&o«Magic Sand»
-   	 * &7&oLock pick
-	 * */
+
 	private static String FORMAT_LORE = "&e&o";
 	public static String FORMAT_WARN = "&e&o";
 	public static String FORMAT_ALLOW = "&a&o";
@@ -81,7 +73,61 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	
 	
 	//---------------------Start name template--------------------//
-	public static String getNameFormatAdminTemplate(String name) {
+	enum Rarity{
+		ADMIN,
+		DIVINE,
+		UNIQUE,
+		RARE,
+		COMMON
+	}
+	
+	//text formatting https://codepen.io/0biwan/pen/ggVemP
+	public static String formatName(Rarity format, String name ) {
+		String formattedName = "&4&lERROR";
+		if(format == Rarity.COMMON) {//?????
+			formattedName= "&8&l-&7&o"+name+"&8&l-";
+		}
+		else if(format == Rarity.RARE) {//green
+			formattedName= "&a&o«"+name+"»";
+			//&a&o«Magic Sand»
+		}
+		else if(format == Rarity.UNIQUE) {//blue
+			formattedName = "&9&l&o&n"+name.charAt(0)+"&b&9"+name.substring(1);//i dont care for this error checking, your dumb if you wanted a blank name and the jar should throw an outofbounds exeception you trash.			
+		}
+		else if(format == Rarity.DIVINE) {//yellow? red?? purple?? ╒ ë¡!║║
+			//&5&l&k0&r&5&l║ T H E  ·  D R A G O N  ·  E G G ║&k0
+			//&e&o]&r&l&e║&r &l&5P&r &l&dO P&r &o&e·&r &l&5R&r &l&dO C K&r &l&e║&r&o&e&o] 
+			//"&e&k]&r&l&e║&r&l&5" + FIRST_WORD_LETTER + "&l&dO"+ FIRST_LEFTOVER  ?SPACE=("&o&e·&r") + " &l&e║&r&o&e&k]"
+			StringBuilder sb = new StringBuilder();
+			String[] words = name.split(" ");
+			
+			sb.append("&e&k]&r&l&e║&r&l&5");
+			
+			for(int wordPos=0; wordPos<words.length;wordPos++) {
+				
+				//scans though each letter in each word and formats it
+				for(int charPos=0; charPos < words[wordPos].length();charPos++) {
+					if(charPos == 1)
+						sb.append("&l&5"+words[wordPos].charAt(charPos) +"&l&dO");
+					else
+						sb.append(" "+words[wordPos]);
+				}
+				
+				//doesnt add space after last word
+				if(wordPos != words.length-1)
+					sb.append("&r  &o&e·  &r");
+			}
+			sb.append("&e&k]&r&l&e║&r&l&5");
+			
+			formattedName = sb.toString();
+		}
+		else if(format == Rarity.ADMIN) {//gold
+			formattedName = "&c&l&o⚡&6&o&l"+name+"&r&c&l&o⚡";
+		}
+		
+		return formattedName;
+	}
+	/*public static String getNameFormatAdminTemplate(String name) {
 		return "&c&l&o⚡&6&o&l"+name+"&r&c&l&o⚡";
 	}
 	
@@ -90,7 +136,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 			return "&a&l&o&n"+name.charAt(0)+"&a&l"+name.substring(1);
 		else
 			return name;
-	}
+	}*/
 	//---------------------End name template----------------------//
 	
 	
@@ -99,8 +145,12 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 			item.reloadConfig();
 	}
 	
-	public String getArtifactLore() {
+	public String getArtifactLoreString() {
 		return super.getItemMeta().getLore().toString();
+	}
+	
+	public List<String> getArtifactLore() {
+		return super.getItemMeta().getLore();
 	}
 	
 	public String getDisplayName() {
@@ -142,8 +192,8 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	}
 	
 	
-	//---------------------Start detect code----------------------//
-	//needs BIG rewrite, but thats later on
+//---------------------Start detect code----------------------//
+//needs BIG rewrite, but thats later on
     public static boolean isArtifact(ItemStack item) {
     	if(item.getItemMeta() != null && item.getItemMeta().getAttributeModifiers(Attribute.HORSE_JUMP_STRENGTH) != null)
         	for(AttributeModifier att: item.getItemMeta().getAttributeModifiers(Attribute.HORSE_JUMP_STRENGTH))
@@ -161,7 +211,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
     	return false;
     }
     
-    public static ArtifactItem[] findArtifacts(Inventory inv) {
+    public static ArtifactItem[] findAllArtifacts(Inventory inv) {
     	ArrayList<ArtifactItem> artifacts = new ArrayList<ArtifactItem>();
     	for(ItemStack item : inv.getContents()) {
     		ArtifactItem artifact = convertItemToArtifact(item);
@@ -174,17 +224,42 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
     	return foundArtifacts;
     }
     
+    protected boolean hasInInventory(Inventory inv) {
+		boolean hasItem = false;
+		for(ArtifactItem art : findAllArtifacts(inv)) {//i dont think art can be null, if the array is empty this code wont execute
+			if(art.getClass() == this.getClass()) {
+				hasItem=true;
+				break;//i thought about adding a thing if a player has multiple, but that situation is impossible.
+			}
+		}
+		return hasItem;
+    }
+    
+    public static boolean findAftifact(Inventory inv, ArtifactItem artifact) {
+		return artifact.hasInInventory(inv);
+    }
+    
 	public static ArtifactItem convertItemToArtifact(ItemStack item) {
     	for(ArtifactItem art : ArtifactList) {
     		if(art.isSelectedArtifact(item)) {
     			ArtifactItem newItem = (ArtifactItem) art.clone();
     			newItem.setItemMeta(item.getItemMeta());
+    			
+    			//allows item names to be updated all the time, ONLY if they are NOT changable
+    			if(!newItem.canRename)
+    				newItem.setDisplayName(art.getDisplayName());
+    			
+    			//ALLWAYS update itemlore
+    			ItemMeta oldLore = newItem.getItemMeta();
+    			oldLore.setLore(art.getArtifactLore());
+    			newItem.setItemMeta(oldLore);
+    			
     			return newItem;
     		}
     	}
     	return null;
     }
-	//---------------------end detect code------------------------//
+//---------------------end detect code------------------------//
 	
 	
 }
