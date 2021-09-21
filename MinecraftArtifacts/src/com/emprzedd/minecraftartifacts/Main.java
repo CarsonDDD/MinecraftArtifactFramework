@@ -7,6 +7,7 @@ import com.emprzedd.minecraftartifacts.items.AdminStaff;
 import com.emprzedd.minecraftartifacts.items.BanHammer;
 import com.emprzedd.minecraftartifacts.items.BlessedDagger;
 import com.emprzedd.minecraftartifacts.items.DragonEgg;
+import com.emprzedd.minecraftartifacts.items.DragonRulerBanner;
 import com.emprzedd.minecraftartifacts.items.LockettePick;
 import com.emprzedd.minecraftartifacts.items.LoreWoodAxe;
 import com.emprzedd.minecraftartifacts.items.MessengerBoots;
@@ -35,7 +36,8 @@ public class Main extends JavaPlugin{
 		 	getServer().getPluginManager().registerEvents(new MessengerBoots(), this);
 		 	getServer().getPluginManager().registerEvents(new BlessedDagger(), this);
 		 	getServer().getPluginManager().registerEvents(new DragonEgg(), this);
-		 	getServer().getPluginManager().registerEvents(new LockettePick(), this);
+		 	//getServer().getPluginManager().registerEvents(new LockettePick(), this);
+		 	getServer().getPluginManager().registerEvents(new DragonRulerBanner(), this);
 		 	
 		 	
 		 	getCommand("artifact").setExecutor(new CommandHandler(new ArtifactSelectionGUI()));
