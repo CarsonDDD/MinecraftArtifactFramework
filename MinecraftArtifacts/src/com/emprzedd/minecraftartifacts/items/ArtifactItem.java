@@ -103,21 +103,21 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 			
 			sb.append("&e&k]&r&l&e║&r&l&5");
 			
+			
 			for(int wordPos=0; wordPos<words.length;wordPos++) {
 				
-				//scans though each letter in each word and formats it
-				for(int charPos=0; charPos < words[wordPos].length();charPos++) {
-					if(charPos == 1)
-						sb.append("&l&5"+words[wordPos].charAt(charPos) +"&l&dO");
-					else
-						sb.append(" "+words[wordPos]);
+				
+				sb.append("&5&l"+words[wordPos].charAt(0) +"&d&o");
+				
+				for(int charPos=1; charPos < words[wordPos].length();charPos++) {
+						sb.append(" "+words[wordPos].charAt(charPos));
 				}
 				
 				//doesnt add space after last word
 				if(wordPos != words.length-1)
 					sb.append("&r  &o&e·  &r");
 			}
-			sb.append("&e&k]&r&l&e║&r&l&5");
+			sb.append("&r&l&e║&r&e&k]");
 			
 			formattedName = sb.toString();
 		}
