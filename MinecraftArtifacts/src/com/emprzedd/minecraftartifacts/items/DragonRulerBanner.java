@@ -26,6 +26,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 /*
  * Dragon Banner
@@ -46,7 +48,9 @@ import net.md_5.bungee.api.ChatColor;
 /*
  * Todo:
  * save banner location and placetimes to handle server restarts when banner is placed. or not?
+ * Doesnt work properly on others claimed land
  * 
+ * Add anti dup which adds vanishig and smite
  * */
 
 
@@ -60,11 +64,14 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 
 	
 	
-	int EFFECT_RADIUS = 16;
-	float EFFECT_NEUTRAL_BONUS = 2f;
+	int EFFECT_RADIUS = 10;
+	float EFFECT_NEUTRAL_BONUS = 2f;//confusing name, change later
 	int EFFECT_DURATION = 20*60;//in ticks 120=2min
 	
 	private long bannerEffectTimer;
+	
+	private long bannerCooldown = 14400;//in seconds,14400=4hours
+	private long bannerCooldownTimer=0;
 	
 	
 	private Location bannerLocation;
@@ -74,6 +81,7 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 	
 	String ERROR_CANT_PLACE = "You cannot place the banner here.";
 	String ERROR_EXISTING_BANNER = "You already have a banner placed at (";
+	String ERROR_COOLDOWN = "The banner is not ready yet.";
 	String EFFECT_MESSAGE = "&d&lA STORM SURGES!";
 	
 	
@@ -95,6 +103,8 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 		
 		super.canPlace = true;
 		super.canTrack = true;
+		super.canDropItem = true;
+		super.canPlaceInItemFrame = true;
 	}
 	
 	@Override
@@ -163,7 +173,7 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 	//make custom later
 	private void giveNeutralRewards(LivingEntity entity) {
 		givePotionEffect(entity,PotionEffectType.SATURATION,EFFECT_DURATION,10);
-		givePotionEffect(entity,PotionEffectType.LEVITATION,3*20,2);
+		//givePotionEffect(entity,PotionEffectType.LEVITATION,3*20,2);
 		givePotionEffect(entity,PotionEffectType.SLOW_FALLING,5*20,1);
 		givePotionEffect(entity,PotionEffectType.DAMAGE_RESISTANCE,2*20,2);
 		
@@ -176,6 +186,8 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 		if(entity.getType() == EntityType.PLAYER) {
 			((Player)entity).playSound(entity.getLocation(), Sound.AMBIENT_CAVE, 10f, 1.1f);//makes things trippy
 			((Player)entity).playSound(entity.getLocation(), Sound.AMBIENT_CAVE, 10f, 0.5f);//makes things trippy
+			((Player)entity).playSound(entity.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 10f, 0.75f);//makes things trippy
+			((Player)entity).playSound(entity.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 10f, 1f);//makes things trippy	
 		}
 
 		entity.sendMessage(ChatColor.translateAlternateColorCodes('&', EFFECT_MESSAGE));
@@ -201,7 +213,6 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 		return (area.getX()+range > loc.getX() && loc.getX() > area.getX()-range)&&
 		(area.getY()+range > loc.getY() && loc.getY() > area.getY()-range)&&
 		(area.getZ()+range > loc.getZ() && loc.getZ() > area.getZ()-range);
-
 	}
 	
 	
@@ -227,6 +238,22 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 		}
 		
 		
+		//handles cooldown
+		if(System.currentTimeMillis() < bannerCooldownTimer+(bannerCooldown*1000)) {
+			e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', super.FORMAT_WARN +ERROR_COOLDOWN));
+			int remaining = (int)(bannerCooldownTimer+(bannerCooldown*1000) - System.currentTimeMillis())/1000;
+			e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&a&l" + remaining + " seconds remaining.")));
+			e.setBuild(false);
+			e.setCancelled(true);
+			return;
+		}
+		else {
+			bannerCooldownTimer = System.currentTimeMillis();
+		}
+		
+		
+		
+		
 		Player player = e.getPlayer();
 		bannerPlayer=player;
 		bannerLocation = e.getBlock().getLocation();
@@ -246,7 +273,10 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 		//give cooldown
 		player.sendMessage("Placed banner");
 		
-		giveAOEEffects(player.getLocation(),player);	
+		
+		
+		
+		//giveAOEEffects(player.getLocation(),player);	
 	}
 	
 	@EventHandler
