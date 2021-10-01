@@ -11,6 +11,8 @@ import com.emprzedd.minecraftartifacts.items.DragonRulerBanner;
 import com.emprzedd.minecraftartifacts.items.LockettePick;
 import com.emprzedd.minecraftartifacts.items.LoreWoodAxe;
 import com.emprzedd.minecraftartifacts.items.MessengerBoots;
+import com.emprzedd.minecraftartifacts.items.PumpkinHead;
+import com.emprzedd.minecraftartifacts.items.RunnerBoots;
 
 
 public class Main extends JavaPlugin{
@@ -38,6 +40,8 @@ public class Main extends JavaPlugin{
 		 	getServer().getPluginManager().registerEvents(new DragonEgg(), this);
 		 	//getServer().getPluginManager().registerEvents(new LockettePick(), this);
 		 	getServer().getPluginManager().registerEvents(new DragonRulerBanner(), this);
+		 	getServer().getPluginManager().registerEvents(new PumpkinHead(), this);
+		 	getServer().getPluginManager().registerEvents(new RunnerBoots(), this);
 		 	
 		 	
 		 	getCommand("artifact").setExecutor(new CommandHandler(new ArtifactSelectionGUI()));
