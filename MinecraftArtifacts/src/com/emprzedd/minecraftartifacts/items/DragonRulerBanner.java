@@ -70,7 +70,7 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 	
 	private long bannerEffectTimer;
 	
-	private long bannerCooldown = 14400;//in seconds,14400=4hours
+	private long bannerCooldown = 60*60;//in seconds,14400=4hours
 	private long bannerCooldownTimer=0;
 	
 	
@@ -83,6 +83,8 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 	String ERROR_EXISTING_BANNER = "You already have a banner placed at (";
 	String ERROR_COOLDOWN = "The banner is not ready yet.";
 	String EFFECT_MESSAGE = "&d&lA STORM SURGES!";
+	String ERROR_NOHAND = "&4&lYou need an empty hand to place The Banner.";
+
 	
 	
 	private HashSet<Player> bannerStorm = new HashSet<Player>();//used so players can leave and rejoin the area to spam the effect, only new players trigger it.
@@ -234,6 +236,16 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 			e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', super.FORMAT_WARN + ERROR_EXISTING_BANNER+"x:"+bannerLocation.getBlockX() + " y:" + bannerLocation.getBlockY() + " z:" + bannerLocation.getBlockZ()+")"));
 			e.setBuild(false);
 			e.setCancelled(true);
+			return;
+		}
+		
+
+		//makes banner get placed, but still has the item in inv. The placed banner will not drop items
+		//If you place a banner, one of your hands needs to be empty, this item is unquie and cannot stack
+		if(e.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR && e.getPlayer().getInventory().getItemInOffHand().getType() != Material.AIR) {
+			e.setBuild(false);
+			e.setCancelled(true);
+			e.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', super.FORMAT_WARN +ERROR_NOHAND)));
 			return;
 		}
 		
