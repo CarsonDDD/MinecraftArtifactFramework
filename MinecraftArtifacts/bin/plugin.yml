@@ -14,5 +14,5 @@ Permissions:
     description: allows player to open the artifact menu
     default: op
   MinecraftArtifacts.Admin:
-    description: allows player to not be killed by smite weapons
+    description: allows player to not be killed by smite weapons and other commands
     default: op

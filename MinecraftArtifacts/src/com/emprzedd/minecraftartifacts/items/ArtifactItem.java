@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
@@ -17,13 +18,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.emprzedd.minecraftartifacts.FileLogger;
+import com.emprzedd.minecraftartifacts.Main;
 
 public abstract class ArtifactItem extends ItemStack implements Listener{
 	
 	
 	//nbt tags
 	private static final String ATTRIBUTE_TAG = "ass";	//stored hidden in nbt, used to check if ItemStack is an artifact
-	private String ITEM_ID;			//used to differentiate artifacts
+	private String ITEM_ID;		//used to differentiate artifacts
 	
 
 	private static String FORMAT_LORE = "&e&o";
@@ -37,7 +39,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public boolean canDropItem = false;
 	public boolean canPlaceInItemFrame = false;
 	public boolean canPlace = false;  
-	public boolean canSmite = false;//kills non-op on pickup
+	public boolean canSmite = false;	//kills non-op on pickup
 	public boolean canRename = false;
 	
 	
@@ -47,6 +49,9 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	
 	private FileLogger logger;
 	public static ArrayList<ArtifactItem> ArtifactList = new ArrayList<ArtifactItem>(16);	//change to hash table or something, every search i do is n.
+	
+	private static Main plugin;
+	
 	
 	
 	
@@ -71,9 +76,17 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 		init();
 	}
 	
+	public static void setPlugin(Main plugin_) {
+		plugin = plugin_;
+	}
+	
+	protected FileConfiguration getConfig() {
+		return plugin.getConfig();
+	}
+	
 	
 	//---------------------Start name template--------------------//
-	enum Rarity{
+	public enum Rarity{
 		ADMIN,
 		DIVINE,
 		UNIQUE,
@@ -85,7 +98,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public static String formatName(Rarity format, String name ) {
 		String formattedName = "&4&lERROR";
 		if(format == Rarity.COMMON) {//?????
-			formattedName= "&8&l-&7&o"+name+"&8&l-";
+			formattedName= "&8&l//&7&o"+name+"&8&l//";
 		}
 		else if(format == Rarity.RARE) {//green
 			formattedName= "&a&o«"+name+"»";
@@ -140,7 +153,8 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	//---------------------End name template----------------------//
 	
 	
-	static void reloadAllArtifacts() {//not implemented yet
+	public static void reloadAllArtifacts() {//not implemented yet
+		plugin.reloadConfig();
 		for(ArtifactItem item : ArtifactList)
 			item.reloadConfig();
 	}

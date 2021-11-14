@@ -1,0 +1,10 @@
+RunnerBoots:
+   # Durations in ticks
+   SpeedLevel: 5
+   SpeedDuration: 20 
+   
+   WeakLevel: 10
+   WeakDuration: 300 
+   
+   SlowLevel: 4
+   SlowDuration: 40    

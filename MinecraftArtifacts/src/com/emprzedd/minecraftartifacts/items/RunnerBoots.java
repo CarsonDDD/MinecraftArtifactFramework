@@ -14,28 +14,32 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class RunnerBoots extends ArtifactItem implements Listener{
 
 	public RunnerBoots(String rawName, Material type, String lore) {
 		super(rawName,rawName, type, lore);
 	}
 	public RunnerBoots() {
-		this(formatName(Rarity.COMMON, "Exploration Boots"),Material.LEATHER_BOOTS,"Used to travel on roads faster.\nOnly effective when healthy.");
+		this(formatName(Rarity.COMMON, "Exploration Boots"),Material.LEATHER_BOOTS,"Used to travel on roads faster.\nOnly effective when healthy and friendly.");
 	}
 	
 	
-	int speedDuration = 40;//in ticks
-	int speedLevel = 3;
+	int speedDuration = 1*20;//in ticks
+	int speedLevel = 5;
 	
-	int slowDuration = 20*4;//in ticks
+	int slowDuration = 10*4;//in ticks
 	int slowLevel = 4;
 	
-	int weakDuration= 30*20;//in ticks
+	int weakDuration = 15*20;//in ticks
 	int weakLevel = 10;  
 	
 	int healthThreashold = 18;// The Players health needs to be above this to get the positive effects.
 	
-	Material[] roadMaterials = {Material.GRASS_PATH,Material.COBBLESTONE};
+	Material[] roadMaterials = {Material.GRASS_PATH, Material.COBBLESTONE, Material.COBBLESTONE_SLAB, Material.COBBLESTONE_STAIRS, Material.STONE_BRICKS, Material.STONE_BRICK_STAIRS, Material.STONE_BRICK_STAIRS, Material.GRAVEL, Material.BLACKSTONE, Material.ANDESITE, Material.ANDESITE_SLAB, Material.ANDESITE_STAIRS, Material.NETHER_BRICK, Material.NETHER_BRICK_SLAB, Material.NETHER_BRICK_STAIRS,Material.BRICK, Material.BRICK_SLAB, Material.BRICK_STAIRS };
+	
+	String WARN_ATTACK = "&2Attack others while wearing the boots will cause you to take the damage.";
 
 	@Override
 	protected void init() {
@@ -45,7 +49,7 @@ public class RunnerBoots extends ArtifactItem implements Listener{
 		super.canPlaceInItemFrame = true;
 		
 		this.addUnsafeEnchantment(Enchantment.DIG_SPEED, 5);
-		this.addEnchantment(Enchantment.DEPTH_STRIDER, 5);
+		this.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 3);
 
 		ItemMeta newMeta = this.getItemMeta();
 		//newMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -54,13 +58,19 @@ public class RunnerBoots extends ArtifactItem implements Listener{
 		LeatherColor.setColor(Color.fromRGB(255, 50, 100));
 
 		this.setItemMeta(newMeta);
-		
 	}
 
 	@Override
 	protected void reloadConfig() {
 		// TODO Auto-generated method stub
+		speedDuration = getConfig().getInt("RunnerBoots.SpeedDuration");
+		speedLevel = getConfig().getInt("RunnerBoots.SpeedLevel"); 
 		
+		weakDuration = getConfig().getInt("RunnerBoots.WeakDuration");
+		weakLevel = getConfig().getInt("RunnerBoots.WeakLevel"); 
+		
+		slowDuration = getConfig().getInt("RunnerBoots.SlowDuration");
+		slowLevel = getConfig().getInt("RunnerBoots.SlowLevel"); 
 	}
 	
 	private boolean validRoadMaterial(Material target){
@@ -94,20 +104,19 @@ public class RunnerBoots extends ArtifactItem implements Listener{
 			PotionEffect weakness = new PotionEffect(PotionEffectType.WEAKNESS,weakDuration,weakLevel-1,false,false,false);
 			speed.apply(player);
 			weakness.apply(player);
-		}
-			
+		}		
 	}
 	
 	@EventHandler
 	public void onPlayerHit(EntityDamageByEntityEvent e) {
 		//having then equipped then hitting a random will cause you to take the damage.
 		if(e.getDamager() instanceof Player && hasEquipped((Player)e.getDamager()) && e.getEntity() instanceof Player) {
+			Player player = (Player)e.getDamager();
 			double damage = e.getDamage();
-			((Player)e.getDamager()).damage(damage);
+			player.damage(damage);
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&', WARN_ATTACK));
 			e.setCancelled(true);
 		}
 	}
-
-	
 	
 }
