@@ -32,10 +32,19 @@ public class ItemTracker implements Listener{
 	//tracks interact
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
-    	ArtifactItem[] artifacts = ArtifactItem.findAllArtifacts(e.getPlayer().getInventory());
-    	for(ArtifactItem artItem : artifacts) {
+    	
+    	if(ArtifactItem.artifactFullTrack) {
+        	ArtifactItem[] artifacts = ArtifactItem.findAllArtifacts(e.getPlayer().getInventory());
+        	for(ArtifactItem artItem : artifacts) {
+        		if(artItem !=null && artItem.canTrack) {
+        			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getPlayer())+")"+artItem.getRawName()+" was in the inventory of '" + e.getPlayer().getName() + " when interacting("+e.getEventName()+")");
+        		}
+        	}
+    	}
+    	else {
+    		ArtifactItem artItem = ArtifactItem.convertItemToArtifact(e.getItem());
     		if(artItem !=null && artItem.canTrack) {
-    			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getPlayer())+")"+artItem.getRawName()+" was in the inventory of '" + e.getPlayer().getName() + " when interacting("+e.getEventName()+")");
+    			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getPlayer())+")"+artItem.getRawName()+" was in the hand of '" + e.getPlayer().getName() + ".");
     		}
     	}
 	}
@@ -43,10 +52,19 @@ public class ItemTracker implements Listener{
     //tracks iventoy use
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-    	ArtifactItem[] artifacts = ArtifactItem.findAllArtifacts(e.getWhoClicked().getInventory());
-    	for(ArtifactItem artItem : artifacts) {
+    	
+    	if(ArtifactItem.artifactFullTrack) {
+        	ArtifactItem[] artifacts = ArtifactItem.findAllArtifacts(e.getWhoClicked().getInventory());
+        	for(ArtifactItem artItem : artifacts) {
+        		if(artItem !=null && artItem.canTrack) {
+        			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getWhoClicked())+")"+artItem.getRawName()+" was in the inventory of '" + e.getWhoClicked().getName() + ".");
+        		}
+        	}
+    	}
+    	else {
+    		ArtifactItem artItem = ArtifactItem.convertItemToArtifact(e.getCurrentItem());
     		if(artItem !=null && artItem.canTrack) {
-    			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getWhoClicked())+")"+artItem.getRawName()+" was in the inventory of '" + e.getWhoClicked().getName() + ".");
+    			artItem.getLogger().logToFile("("+FileLogger.entityLocation(e.getWhoClicked())+")"+artItem.getRawName()+" was in the hand of '" + e.getWhoClicked().getName() + ".");
     		}
     	}
     }
