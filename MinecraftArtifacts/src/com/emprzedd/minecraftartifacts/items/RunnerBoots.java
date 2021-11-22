@@ -91,6 +91,7 @@ public class RunnerBoots extends ArtifactItem implements Listener{
 			return;
 		
 		Material road = e.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN).getType();
+		Material legs = e.getPlayer().getLocation().getBlock().getRelative(BlockFace.SELF).getType();
 		Player player = e.getPlayer();
 		
 		// If a player is doesnt meet the health req NO MATTER WHAT CIRCUMSTANCES will be granted slowness.
@@ -99,7 +100,7 @@ public class RunnerBoots extends ArtifactItem implements Listener{
 			PotionEffect slow = new PotionEffect(PotionEffectType.SLOW,slowDuration,slowLevel-1,false,false,false);	
 			slow.apply(player);
 		}
-		else if(validRoadMaterial(road)) {
+		else if(validRoadMaterial(road) || validRoadMaterial(legs)) {
 			PotionEffect speed = new PotionEffect(PotionEffectType.SPEED,speedDuration,speedLevel-1,false,false,false);	
 			PotionEffect weakness = new PotionEffect(PotionEffectType.WEAKNESS,weakDuration,weakLevel-1,false,false,false);
 			speed.apply(player);
