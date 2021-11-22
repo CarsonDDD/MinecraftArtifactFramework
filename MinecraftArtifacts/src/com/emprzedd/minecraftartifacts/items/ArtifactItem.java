@@ -32,6 +32,10 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public static String FORMAT_WARN = "&e&o";
 	public static String FORMAT_ALLOW = "&a&o";
 	
+	public static boolean artifactFullTrack = false;
+	public static boolean artifactFullSmite = false;
+	
+	
 	
 	//Artifact settings, add readonly system or move listeners here(if i want "safety")
 	public boolean canTrack = false;
@@ -39,7 +43,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public boolean canDropItem = false;
 	public boolean canPlaceInItemFrame = false;
 	public boolean canPlace = false;  
-	public boolean canSmite = false;	//kills non-op on pickup
+	public boolean canSmite = false;	//kills admin-permission on pickup
 	public boolean canRename = false;
 	
 	
@@ -80,7 +84,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 		plugin = plugin_;
 	}
 	
-	protected FileConfiguration getConfig() {
+	protected static FileConfiguration getConfig() { // Changed from non-static
 		return plugin.getConfig();
 	}
 	
@@ -153,8 +157,13 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	//---------------------End name template----------------------//
 	
 	
-	public static void reloadAllArtifacts() {//not implemented yet
+	public static void reloadAllArtifacts() {
 		plugin.reloadConfig();
+		//FullSmiteCheck: false
+		//FullItemTrack: false
+		artifactFullTrack = getConfig().getBoolean("FullItemTrack");
+		artifactFullSmite = getConfig().getBoolean("FullSmiteCheck");
+		
 		for(ArtifactItem item : ArtifactList)
 			item.reloadConfig();
 	}
