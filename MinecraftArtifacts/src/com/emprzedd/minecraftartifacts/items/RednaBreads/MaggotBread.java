@@ -40,8 +40,8 @@ public class MaggotBread extends ArtifactItem{
 	public void onEat(PlayerItemConsumeEvent e) {
 		if(this.isSelectedArtifact(e.getItem())) {
 			Player p = e.getPlayer();
-			p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,20*120, 1));
-			p.addPotionEffect(new PotionEffect(PotionEffectType.POISON,20*120, 1));
+			p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,20*120, 0));
+			p.addPotionEffect(new PotionEffect(PotionEffectType.POISON,20*120, 0));
 		}
 	}
 }
