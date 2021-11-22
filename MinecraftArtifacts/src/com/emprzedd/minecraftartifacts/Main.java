@@ -47,7 +47,7 @@ public class Main extends JavaPlugin{
 		 	getServer().getPluginManager().registerEvents(new BlessedDagger(), this);
 		 	getServer().getPluginManager().registerEvents(new DragonEgg(), this);
 		 	//getServer().getPluginManager().registerEvents(new LockettePick(), this);
-		 	getServer().getPluginManager().registerEvents(new DragonRulerBanner(), this);
+		 	//getServer().getPluginManager().registerEvents(new DragonRulerBanner(), this);
 		 	getServer().getPluginManager().registerEvents(new PumpkinHead(), this);
 		 	getServer().getPluginManager().registerEvents(new RunnerBoots(), this);
 		 	getServer().getPluginManager().registerEvents(new MaggotBread(), this);
