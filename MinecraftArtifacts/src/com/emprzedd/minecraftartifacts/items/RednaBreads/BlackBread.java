@@ -40,9 +40,9 @@ public class BlackBread extends ArtifactItem{
 	public void onEat(PlayerItemConsumeEvent e) {
 		if(this.isSelectedArtifact(e.getItem())) {
 			Player p = e.getPlayer();
-			p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,20*60, 1));
-			p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER,20*60, 1));
-			p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,20*60, 1));
+			p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,20*60, 0));
+			p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER,20*60, 0));
+			p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,20*60, 0));
 		}
 	}
 }

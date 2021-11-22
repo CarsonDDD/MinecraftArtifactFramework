@@ -40,7 +40,7 @@ public class CeremonialBread extends ArtifactItem{
 	public void onEat(PlayerItemConsumeEvent e) {
 		if(this.isSelectedArtifact(e.getItem())) {
 			Player p = e.getPlayer();
-			p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,20*20, 1));
+			p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,20*20, 0));
 			p.setFireTicks(20*20);
 		}
 	}
