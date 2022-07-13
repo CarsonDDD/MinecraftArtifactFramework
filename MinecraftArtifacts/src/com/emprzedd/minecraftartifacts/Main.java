@@ -14,6 +14,7 @@ import com.emprzedd.minecraftartifacts.items.LoreWoodAxe;
 import com.emprzedd.minecraftartifacts.items.MessengerBoots;
 import com.emprzedd.minecraftartifacts.items.PumpkinHead;
 import com.emprzedd.minecraftartifacts.items.RunnerBoots;
+import com.emprzedd.minecraftartifacts.items.WaterCrown;
 import com.emprzedd.minecraftartifacts.items.RednaBreads.BlackBread;
 import com.emprzedd.minecraftartifacts.items.RednaBreads.BloodBread;
 import com.emprzedd.minecraftartifacts.items.RednaBreads.CeremonialBread;
@@ -56,6 +57,7 @@ public class Main extends JavaPlugin{
 		 	getServer().getPluginManager().registerEvents(new BloodBread(), this);
 		 	getServer().getPluginManager().registerEvents(new FeastBread(), this);
 		 	getServer().getPluginManager().registerEvents(new GoldenBread(), this);
+		 	getServer().getPluginManager().registerEvents(new WaterCrown(), this);
 		 	
 		 	
 		 	

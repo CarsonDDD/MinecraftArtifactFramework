@@ -11,4 +11,8 @@ RunnerBoots:
    WeakDuration: 300 
    
    SlowLevel: 4
-   SlowDuration: 40    
+   SlowDuration: 40   
+   
+WaterCrown:
+   time: 5
+    
