@@ -1,0 +1,18 @@
+# Only set these to true if your server can handle it. When these are true it will scan through inventories checking for aritfacts
+FullSmiteCheck: false
+FullItemTrack: false
+ 
+RunnerBoots:
+   # Durations in ticks
+   SpeedLevel: 5
+   SpeedDuration: 20 
+   
+   WeakLevel: 10
+   WeakDuration: 300 
+   
+   SlowLevel: 4
+   SlowDuration: 40   
+   
+WaterCrown:
+   time: 5
+    

@@ -1,0 +1,17 @@
+name: ArtifactFramework
+version: '${project.version}'
+main: me.emprzedd.artifactframework.ArtifactFramework
+api-version: 1.19
+commands:
+  artifact:
+    description: /ll help for help
+    usage: /ll
+    aliases: [artgui,artifactgui,agui]
+    permission: MinecraftArtifacts.Usage
+Permissions:
+  MinecraftArtifacts.Usage:
+    description: allows player to open the artifact menu
+    default: op
+  MinecraftArtifacts.Admin:
+    description: allows player to not be killed by smite weapons and other commands
+    default: op
