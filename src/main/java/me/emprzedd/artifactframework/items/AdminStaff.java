@@ -27,8 +27,6 @@ public class AdminStaff extends ArtifactItem {
 	public AdminStaff() {
 		this(Rarity.formatText(Rarity.ADMIN, "Admin Staff"),Material.BLAZE_ROD,"A powerful staff which can only\nbe wielded by a higher power.");
 	}
-
-	
 	
 	@Override
 	protected void init() {
