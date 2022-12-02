@@ -1,16 +1,9 @@
 package me.emprzedd.artifactframework;
 
+import me.emprzedd.artifactframework.items.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.ChatColor;
 
-import me.emprzedd.artifactframework.items.AdminStaff;
-import me.emprzedd.artifactframework.items.BanHammer;
-import me.emprzedd.artifactframework.items.BlessedDagger;
-import me.emprzedd.artifactframework.items.DragonEgg;
-import me.emprzedd.artifactframework.items.LoreWoodAxe;
-import me.emprzedd.artifactframework.items.MessengerBoots;
-import me.emprzedd.artifactframework.items.PumpkinHead;
-import me.emprzedd.artifactframework.items.RunnerBoots;
 import me.emprzedd.artifactframework.items.RednaBreads.BlackBread;
 import me.emprzedd.artifactframework.items.RednaBreads.BloodBread;
 import me.emprzedd.artifactframework.items.RednaBreads.CeremonialBread;
@@ -24,10 +17,10 @@ public class ArtifactFramework extends JavaPlugin{
     private PluginLogger logger;
     @Override
     public void onEnable(){
-        //getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+        getConfig().options().copyDefaults(true);
         logger = new PluginLogger("output.txt",this);
-        //ArtifactItem.setPlugin(this);
+        ArtifactItem.setPlugin(this);
 
         //----------Events-------------------------//
         getServer().getPluginManager().registerEvents(new ItemInventoryHandler(this), this);
@@ -44,6 +37,7 @@ public class ArtifactFramework extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new MessengerBoots(), this);
         getServer().getPluginManager().registerEvents(new BlessedDagger(), this);
         getServer().getPluginManager().registerEvents(new DragonEgg(), this);
+        getServer().getPluginManager().registerEvents(new FlameOfCreation(), this);
         //getServer().getPluginManager().registerEvents(new LockettePick(), this);
         // test
         //getServer().getPluginManager().registerEvents(new DragonRulerBanner(), this);
