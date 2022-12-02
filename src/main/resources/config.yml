@@ -19,3 +19,4 @@ WaterCrown:
 
 FlameOfCreation:
    cooldownSeconds: 300
+   speedMultiplier: 4

@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.inventory.AbstractHorseInventory;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.InventoryHolder;
@@ -53,7 +54,11 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
 
     private int cooldownSeconds = 60 * 5;
 
+    private double speedMultiplier = 4;
+
     private long summonTime = -cooldownSeconds;
+
+    private UUID vehicleId;
 
     Team team;
 
@@ -70,21 +75,22 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
         addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 1);
 
         Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-        if(board.getTeam("redGlow") == null){
-            team = board.registerNewTeam("redGlow");
-        }
+        team = board.getTeam("redGlow") == null ? board.registerNewTeam("redGlow") : board.getTeam("redGlow");
         team.setColor(ChatColor.RED);
     }
 
     @Override
     protected void reloadConfig() {
         cooldownSeconds = getConfig().getInt("FlameOfCreation.cooldownSeconds");
+        speedMultiplier = getConfig().getDouble("FlameOfCreation.speedMultiplier");
     }
 
     @EventHandler
     public void summon(PlayerInteractEvent e){
-        if(e.getItem()!= null && !e.getItem().getType().isAir() && this.isSelectedArtifact(e.getItem())){
-            if(e.getClickedBlock() != null && e.getClickedBlock().getRelative(BlockFace.UP).getType().isAir()){
+        ItemStack item = e.getItem();
+        if(item!= null && !item.getType().isAir() && this.isSelectedArtifact(item)){
+
+            if(e.getClickedBlock() == null || !e.getClickedBlock().getRelative(BlockFace.UP).getType().isAir()){
                 screamAtPlayer(e.getPlayer(),"Invalid Spot.");
                 return;
             }
@@ -105,47 +111,54 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
                         e.getClickedBlock().getRelative(BlockFace.UP).getLocation(),
                         EntityType.DONKEY
                 );
+                vehicleId = donkey.getUniqueId();
+
+
+                donkey.setRemoveWhenFarAway(false);
+                donkey.setPersistent(true);
 
                 donkey.setFireTicks(Integer.MAX_VALUE);
-                donkey.setRemoveWhenFarAway(false);
+                donkey.setVisualFire(true);
+
                 donkey.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,Integer.MAX_VALUE,10,false,false));
                 donkey.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,Integer.MAX_VALUE,2,false,false));
-                donkey.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20*2,3,false,false));
+                donkey.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,20*3,3,false,false));
                 donkey.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,Integer.MAX_VALUE,3,false,false));
-                //PotionEffect glow = new PotionEffect(PotionEffectType.GLOWING,Integer.MAX_VALUE,10,false,false);
-                //donkey.addPotionEffect(glow);
-
-
-                team.addEntry(donkey.getUniqueId().toString());
-                donkey.setGlowing(true);
+                donkey.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,Integer.MAX_VALUE,1,false,false));
 
                 donkey.setAdult();
                 donkey.setMaxHealth(50);
-                donkey.setCollidable(false);
-                donkey.setCustomNameVisible(true);
-                donkey.setCustomName("Name");
-                donkey.setAI(true);
                 donkey.setJumpStrength(2);
                 donkey.getInventory().setSaddle(new ItemStack(Material.SADDLE));
                 donkey.setEatingHaystack(true);
                 donkey.setLoveModeTicks(Integer.MAX_VALUE);
-                donkey.getLocation().getWorld().strikeLightning(donkey.getLocation());
-                donkey.setFireTicks(Integer.MAX_VALUE);
-
                 donkey.setOwner(e.getPlayer());
 
+                donkey.setCollidable(false);
+                donkey.setAI(true);
+                team.addEntry(donkey.getUniqueId().toString());
+                donkey.setGlowing(true);
+                donkey.setTarget(e.getPlayer());
+
+                donkey.setCustomNameVisible(true);
+                donkey.setCustomName("Flame Of Creation");
+
+                donkey.getLocation().getWorld().strikeLightning(donkey.getLocation());
+
+
                 e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,20*20,10,false,false));
-                for (Entity ent : donkey.getNearbyEntities(2,4,2)) {
+                for (Entity ent : donkey.getNearbyEntities(8,4,8)) {
                     if(ent instanceof Player){
                         ((Player)ent).addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,20*3,10,false,false));
                         ((Player)ent).addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20*5,1,false,false));
                         ((Player)ent).addPotionEffect(new PotionEffect(PotionEffectType.SATURATION,20*5,2,false,false));
                         ent.setFireTicks(20*20);
                     }
+                    else if(ent instanceof Monster){
+                        ent.setFireTicks(20*10);
+                    }
                 }
-
                 summonTime = System.currentTimeMillis();
-
             }
 
         }
@@ -160,5 +173,12 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
             return;
 
         e.getDamager().setFireTicks(20*4);
+    }
+
+    @EventHandler
+    public void onMove(VehicleMoveEvent e){
+        if(e.getVehicle().getUniqueId() == vehicleId){
+            e.getVehicle().setVelocity(new Vector(e.getVehicle().getLocation().getDirection().multiply(speedMultiplier).getX(), 0, e.getVehicle().getLocation().getDirection().multiply(speedMultiplier).getZ()));
+        }
     }
 }
