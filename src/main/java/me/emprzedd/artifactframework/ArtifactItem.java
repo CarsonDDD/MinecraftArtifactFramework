@@ -51,7 +51,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public boolean canDropItem = false;
 	public boolean canPlaceInItemFrame = false;
 	public boolean canPlace = false;  
-	public boolean canSmite = false;	//kills admin-permission on pickup
+	public boolean canSmite = false; //kills user if they do not have the permissions
 	public boolean canRename = false;
 	
 	private Sound voice = Sound.ENTITY_ENDER_DRAGON_GROWL;
@@ -167,12 +167,15 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	
 	
 //---------------------Start detect code----------------------//
-//needs BIG rewrite, but thats later on
+// Eventually change to use public boolean ItemStack.isSimilar
     public static boolean isAnyArtifact(ItemStack item) {
     	if(item.getItemMeta() != null && item.getItemMeta().getAttributeModifiers(Attribute.HORSE_JUMP_STRENGTH) != null)
         	for(AttributeModifier att: item.getItemMeta().getAttributeModifiers(Attribute.HORSE_JUMP_STRENGTH))
-            	if(att.equals(ARTIFACTID.modifier))
-            		return true;
+				if(ARTIFACTID.equals(att)){
+					return true;
+				}
+				/*if(att.equals(ARTIFACTID.modifier))
+            		return true;*/
     	//return item instanceof ArtifactItem;
     	return false;
     }
@@ -180,8 +183,11 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public boolean isSelectedArtifact(ItemStack item) {
     	if((item != null&&item.getType() != Material.AIR) && item.getItemMeta() != null && item.getItemMeta().getAttributeModifiers() != null && item.getItemMeta().getAttributeModifiers(Attribute.ZOMBIE_SPAWN_REINFORCEMENTS) != null)
     		for(AttributeModifier att : item.getItemMeta().getAttributeModifiers(Attribute.ZOMBIE_SPAWN_REINFORCEMENTS))
-            	if(att.equals(UNIQUEID.modifier))
+            	if(UNIQUEID.equals(att)){
 					return true;
+				}
+				/*if(att.equals(UNIQUEID.modifier))
+					return true;*/
     	return false;
     }
 
