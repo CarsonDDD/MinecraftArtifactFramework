@@ -15,4 +15,7 @@ RunnerBoots:
    
 WaterCrown:
    time: 5
-    
+
+
+FlameOfCreation:
+   cooldownSeconds: 300
