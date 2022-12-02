@@ -14,10 +14,17 @@ public class ArtifactKey{
 
     @Override
     public boolean equals(Object o) {
-        if(!(o instanceof ArtifactKey)) return false;
+        if(!(o instanceof ArtifactKey) && !(o instanceof AttributeModifier)) return false;
         //return modifier.equals(((ArtifactKey)o).modifier);
 
-        AttributeModifier other = ((ArtifactKey) o).modifier;
+        AttributeModifier other;
+        if((o instanceof ArtifactKey)){
+            other = ((ArtifactKey) o).modifier;
+        }
+        else{
+            other = (AttributeModifier) o;
+        }
+
         boolean slots = (modifier.getSlot() != null ? (modifier.getSlot() == other.getSlot()) : other.getSlot() == null);
         return modifier.getName().equals(other.getName()) && modifier.getAmount() == other.getAmount() && modifier.getOperation() == other.getOperation() && slots;
     }
