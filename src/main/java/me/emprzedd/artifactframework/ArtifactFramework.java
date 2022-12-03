@@ -76,6 +76,7 @@ public class ArtifactFramework extends JavaPlugin{
 
     @Override
     public void onDisable(){
+        ArtifactItem.disableArtifacts();
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "Minecraft Artifacts Stopped");
     }
 }

@@ -283,6 +283,16 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 		return null;
 	}
 //---------------------end detect code------------------------//
-	
+
+	//--------Event Code--------//
+	protected void onDisable(){
+		// Empty function meant to be overwritten if needed.
+	}
+
+	public static void disableArtifacts(){
+		for(Map.Entry<ArtifactKey, ArtifactItem> entry : artifactMap.entrySet()){
+			entry.getValue().onDisable();
+		}
+	}
 	
 }
