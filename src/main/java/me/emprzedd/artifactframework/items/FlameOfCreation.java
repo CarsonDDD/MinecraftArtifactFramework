@@ -139,7 +139,7 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        avatar.setHealth(0);
+                        killHorse(true);
                     }
                 }.runTaskLater(this.getPlugin(), 20L * liveSeconds /*<-- the delay */);
 
@@ -258,9 +258,11 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
     public void onHorseJump(HorseJumpEvent e){
         if(e.getEntity().getUniqueId() == vehicleId){
             Horse avatar = (Horse) e.getEntity();
+            avatar.setFallDistance(-64);
             avatar.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,20*10,10,false,false));
             avatar.getPassengers().forEach( livingEntity -> {
                 if(livingEntity instanceof LivingEntity){
+                    livingEntity.setFallDistance(-64);
                     ((LivingEntity) livingEntity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,20*10,2,false,false));
                 }
             });
@@ -268,8 +270,26 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
         }
     }
 
+    // Drop all items and remove the horse.
     @Override
     public void onDisable(){
-        horseReference.remove();
+        killHorse(false);
+        this.getPlugin().getLogger().info("Avatar Horse removed!");
+    }
+
+    private void killHorse(boolean playEffects){
+        if(horseReference != null) {
+            if(playEffects){
+
+            }
+
+            horseReference.getInventory().forEach(item ->{
+                horseReference.getWorld().dropItem(horseReference.getLocation(),item);
+            });
+            horseReference.remove();
+        }
+        else{
+            this.getPlugin().getLogger().warning("Attempting to kill a null horse. The only way this is allowed to happen is if there is no Avatar Horse summon on a server close.");
+        }
     }
 }
