@@ -63,7 +63,9 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
 
     private long summonTime = -cooldownSeconds;
 
+    // Probably can replace vehicleId with horseReference
     private UUID vehicleId;
+    private Horse horseReference;
 
     Team team;
 
@@ -131,6 +133,8 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
                         summonPoint.getRelative(BlockFace.UP,16).getLocation(),
                         EntityType.HORSE
                 );
+
+                horseReference = avatar;
 
                 new BukkitRunnable() {
                     @Override
@@ -245,7 +249,6 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
                 e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,40,1,false,false));
                 e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,40,2,false,false));
                 e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,40,2,false,false));
-
             }
         }
     }
@@ -263,5 +266,10 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
             });
 
         }
+    }
+
+    @Override
+    public void onDisable(){
+        horseReference.remove();
     }
 }
