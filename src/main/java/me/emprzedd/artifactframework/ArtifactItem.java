@@ -104,6 +104,10 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	}
 
 	public static void setPlugin(JavaPlugin plugin_) {plugin = plugin_;}
+
+	protected JavaPlugin getPlugin(){
+		return plugin;
+	}
 	protected static FileConfiguration getConfig() { return plugin.getConfig();}// easy of use function.
 
 	public static Map<ArtifactKey, ArtifactItem> getArtifactItems(){
