@@ -55,7 +55,7 @@ public class ArtifactFramework extends JavaPlugin{
         getCommand("artifact").setExecutor(new CommandHandler(new ArtifactSelectionGUI()));
         //getCommand("artifact").setTabCompleter(new CommandHandler(new ArtifactSelectionGUI()));
 
-
+        ArtifactItem.reloadAllArtifacts();
         //getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Minecraft Artifacts loaded");
         getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',"&f█&f█&f█&1╗&b░&b░&b░&f█&f█&f█&1╗&f█&f█&1╗&f█&f█&f█&1╗&b░&b░&f█&f█&1╗&f█&f█&f█&f█&f█&f█&f█&1╗&b░&f█&f█&f█&f█&f█&1╗&b░&f█&f█&f█&f█&f█&f█&1╗&b░&b░&f█&f█&f█&f█&f█&1╗&b░&f█&f█&f█&f█&f█&f█&f█&f█&1╗"));
         getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',"&f█&f█&f█&f█&1╗&b░&f█&f█&f█&f█&1║&f█&f█&1║&f█&f█&f█&f█&1╗&b░&f█&f█&1║&f█&f█&1╔&1═&1═&1═&1═&1╝&f█&f█&1╔&1═&1═&f█&f█&1╗&f█&f█&1╔&1═&1═&f█&f█&1╗&f█&f█&1╔&1═&1═&f█&f█&1╗&1╚&1═&1═&f█&f█&1╔&1═&1═&1╝"));
