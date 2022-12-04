@@ -60,8 +60,7 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 
 	//
 	protected abstract void init();
-	protected abstract void reloadConfig();
-	
+
 	private final PluginLogger logger;
 
 	//change to hash table or something, every search i do is n.
@@ -117,19 +116,6 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public PluginLogger getLogger() {return logger;}
 
 	protected ArtifactKey getKey(){return UNIQUEID;}
-	
-	public static void reloadAllArtifacts() {
-		plugin.reloadConfig();
-		artifactFullTrack = getConfig().getBoolean("FullItemTrack");
-		artifactFullSmite = getConfig().getBoolean("FullSmiteCheck");
-		
-		/*for(ArtifactItem item : ArtifactList)
-			item.reloadConfig();*/
-
-		for(Map.Entry<ArtifactKey, ArtifactItem> entry : artifactMap.entrySet()){
-			entry.getValue().reloadConfig();
-		}
-	}
 	
 	public List<String> getLore() {return super.getItemMeta().getLore();}
 	
@@ -292,6 +278,23 @@ public abstract class ArtifactItem extends ItemStack implements Listener{
 	public static void disableArtifacts(){
 		for(Map.Entry<ArtifactKey, ArtifactItem> entry : artifactMap.entrySet()){
 			entry.getValue().onDisable();
+		}
+	}
+
+	protected void onReload() {
+		// Empty function meant to be overwritten if needed.
+	}
+
+	public static void reloadAllArtifacts() {
+		plugin.reloadConfig();
+		artifactFullTrack = getConfig().getBoolean("FullItemTrack");
+		artifactFullSmite = getConfig().getBoolean("FullSmiteCheck");
+
+		/*for(ArtifactItem item : ArtifactList)
+			item.reloadConfig();*/
+
+		for(Map.Entry<ArtifactKey, ArtifactItem> entry : artifactMap.entrySet()){
+			entry.getValue().onReload();
 		}
 	}
 	
