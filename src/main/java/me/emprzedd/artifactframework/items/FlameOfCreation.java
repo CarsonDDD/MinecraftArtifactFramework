@@ -1,50 +1,29 @@
 package me.emprzedd.artifactframework.items;
 
-import jdk.jfr.Timespan;
 import me.emprzedd.artifactframework.ArtifactItem;
 import me.emprzedd.artifactframework.Rarity;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
-import org.bukkit.entity.memory.MemoryKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.HorseJumpEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.vehicle.VehicleMoveEvent;
-import org.bukkit.inventory.AbstractHorseInventory;
-import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.loot.LootTable;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import org.bukkit.util.BoundingBox;
-import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
-import java.io.FileReader;
-import java.sql.Time;
 import java.util.*;
 
 public class FlameOfCreation extends ArtifactItem implements Listener {
@@ -195,7 +174,7 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,20*3,10,false,false));
                         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20*5,1,false,false));
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION,20*5,2,false,false));
-                        player.setFireTicks(20*20);
+                        //player.setFireTicks(20*20);
                         player.playSound(avatar.getLocation(),Sound.ENTITY_HORSE_ANGRY,5,0.75f);
 
                     }
@@ -217,7 +196,7 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
         if(!super.hasInInventory(holder.getInventory()))
             return;
 
-        e.getDamager().setFireTicks(20*3);
+        e.getEntity().setFireTicks(20*5);
     }
 
 
@@ -232,6 +211,11 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
                     if(ent instanceof Vehicle && ent instanceof LivingEntity){
                         // Apply slowfall effect
                         ((LivingEntity)ent).addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,20*10,20,false,false));
+                        ((LivingEntity)ent).getPassengers().forEach(passenger ->{
+                            if(passenger instanceof LivingEntity){
+                                ((LivingEntity) passenger).addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,20*10,20,false,false));
+                            }
+                        });
                     }
                     else if(!ent.equals(e.getPlayer()) && ent.getLocation().distance(avatar.getLocation()) < 2 && (ent instanceof Monster || ent instanceof Player)){
                         // Ram Effect
@@ -280,12 +264,20 @@ public class FlameOfCreation extends ArtifactItem implements Listener {
     private void killHorse(boolean playEffects){
         if(horseReference != null) {
             if(playEffects){
-
+                horseReference.getWorld().strikeLightning(horseReference.getLocation());
+                horseReference.getNearbyEntities(8,8,8).forEach(entity -> {
+                    if(entity instanceof Player){
+                        this.screamAtPlayer((Player)entity,"Returning to Aetherium...");
+                    }
+                });
             }
 
             horseReference.getInventory().forEach(item ->{
-                horseReference.getWorld().dropItem(horseReference.getLocation(),item);
+                if (item != null) {
+                    horseReference.getWorld().dropItem(horseReference.getLocation(),item);
+                }
             });
+            horseReference.setHealth(0);
             horseReference.remove();
         }
         else{
