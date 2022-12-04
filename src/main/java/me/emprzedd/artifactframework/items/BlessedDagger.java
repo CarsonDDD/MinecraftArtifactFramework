@@ -15,6 +15,7 @@ import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +34,7 @@ import org.bukkit.potion.PotionEffectType;
  * Desc:
  * On player kill, change enchants on item.
  * */
-public class BlessedDagger extends ArtifactItem {
+public class BlessedDagger extends ArtifactItem implements Listener {
 	public BlessedDagger(String rawName, Material type, String lore) {
 		super(rawName,rawName, type, lore);
 	}
@@ -100,11 +101,7 @@ public class BlessedDagger extends ArtifactItem {
 		super.canTrack = true;
 		super.canPlaceInInventory = true;
 	}
-	
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-	}
+
 	
 	private void removeRandomEnchant(ItemStack item, int amount) {
 		Object[] enchantList = item.getEnchantments().keySet().toArray();

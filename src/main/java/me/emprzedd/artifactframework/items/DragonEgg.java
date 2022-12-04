@@ -79,11 +79,6 @@ public class DragonEgg extends ArtifactItem implements Listener {
 		super.canTrack = true;
 	}
 	
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-	}
-	
 	
 	private boolean isEggHolder(Player p) {
 		return (p.getInventory().getHelmet() != null && isSelectedArtifact(p.getInventory().getHelmet()));

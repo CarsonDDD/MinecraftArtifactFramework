@@ -69,11 +69,6 @@ public class LockettePick extends ArtifactItem {
 		super.canPlaceInInventory = true;
 	}
 	
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-	}
-	
 	
 	@EventHandler
 	public void onUnlockAttempt(PlayerInteractEvent e) {

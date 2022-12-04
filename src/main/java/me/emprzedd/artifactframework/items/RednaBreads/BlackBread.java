@@ -10,39 +10,33 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class BlackBread extends ArtifactItem {
-	public BlackBread(String rawName, Material type, String lore) {
-		super(rawName,rawName, type, lore);
-	}
-	public BlackBread() {
-		this(Rarity.formatText(Rarity.COMMON, "Black Bread"),Material.BREAD,"Preserved only for the evilest of evils.");
-	}
-	
-	
-	
-	///
+    public BlackBread(String rawName, Material type, String lore) {
+        super(rawName, rawName, type, lore);
+    }
 
-	@Override
-	protected void init() {
-		// TODO Auto-generated method stub
-		canTrack = false;
-		canPlaceInInventory = true;
-		canDropItem = true;
-		canPlaceInItemFrame = true;
-	}
+    public BlackBread() {
+        this(Rarity.formatText(Rarity.COMMON, "Black Bread"), Material.BREAD, "Preserved only for the evilest of evils.");
+    }
 
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@EventHandler
-	public void onEat(PlayerItemConsumeEvent e) {
-		if(this.isSelectedArtifact(e.getItem())) {
-			Player p = e.getPlayer();
-			p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,20*60, 0));
-			p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER,20*60, 0));
-			p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER,20*60, 0));
-		}
-	}
+
+    ///
+
+    @Override
+    protected void init() {
+        // TODO Auto-generated method stub
+        canTrack = false;
+        canPlaceInInventory = true;
+        canDropItem = true;
+        canPlaceInItemFrame = true;
+    }
+
+    @EventHandler
+    public void onEat(PlayerItemConsumeEvent e) {
+        if (this.isSelectedArtifact(e.getItem())) {
+            Player p = e.getPlayer();
+            p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * 60, 0));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 20 * 60, 0));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 20 * 60, 0));
+        }
+    }
 }

@@ -28,10 +28,4 @@ public class PumpkinHead extends ArtifactItem implements Listener{
 		this.addUnsafeEnchantment(Enchantment.OXYGEN, 5);
 	}
 
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -38,11 +38,6 @@ public class GoldenBread extends ArtifactItem {
 		canPlaceInItemFrame = true;
 	}
 
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@EventHandler
 	public void onEat(PlayerItemConsumeEvent e) {

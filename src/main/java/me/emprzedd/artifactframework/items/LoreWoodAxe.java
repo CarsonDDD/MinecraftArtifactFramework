@@ -72,11 +72,6 @@ public class LoreWoodAxe extends ArtifactItem implements Listener{
 		super.canTrack = true;
 		super.canPlaceInInventory = true;
 	}
-
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-	}
 	
 	
 	private boolean giveWeightPenelty(Player player) {

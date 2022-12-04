@@ -112,7 +112,7 @@ public class DragonRulerBanner extends ArtifactItem implements Listener{
 	}
 	
 	@Override
-	protected void reloadConfig() {
+	protected void onReload() {
 		// TODO Auto-generated method stub
 	}
 	

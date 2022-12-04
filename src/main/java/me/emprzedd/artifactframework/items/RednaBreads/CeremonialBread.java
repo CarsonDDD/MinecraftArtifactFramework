@@ -16,10 +16,6 @@ public class CeremonialBread extends ArtifactItem {
 	public CeremonialBread() {
 		this(Rarity.formatText(Rarity.COMMON, "Ceremonial Bread"),Material.BREAD,"Eternal Glory.");
 	}
-	
-	
-	
-	///
 
 	@Override
 	protected void init() {
@@ -28,12 +24,6 @@ public class CeremonialBread extends ArtifactItem {
 		canPlaceInInventory = true;
 		canDropItem = true;
 		canPlaceInItemFrame = true;
-	}
-
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@EventHandler

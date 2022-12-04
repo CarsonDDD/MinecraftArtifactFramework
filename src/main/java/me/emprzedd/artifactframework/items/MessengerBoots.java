@@ -57,9 +57,5 @@ public class MessengerBoots extends ArtifactItem {
 		this.canPlaceInInventory=false;
 		this.canRename=false;
 	}
-	
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-	}
+
 }

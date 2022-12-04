@@ -30,12 +30,6 @@ public class MaggotBread extends ArtifactItem {
 		canDropItem = true;
 		canPlaceInItemFrame = true;
 	}
-
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@EventHandler
 	public void onEat(PlayerItemConsumeEvent e) {

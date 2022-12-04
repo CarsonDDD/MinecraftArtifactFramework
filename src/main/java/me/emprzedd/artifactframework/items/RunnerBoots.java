@@ -63,7 +63,7 @@ public class RunnerBoots extends ArtifactItem implements Listener{
 	}
 
 	@Override
-	protected void reloadConfig() {
+	protected void onReload() {
 		// TODO Auto-generated method stub
 		speedDuration = getConfig().getInt("RunnerBoots.SpeedDuration");
 		speedLevel = getConfig().getInt("RunnerBoots.SpeedLevel"); 

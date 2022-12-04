@@ -42,8 +42,4 @@ public class AdminStaff extends ArtifactItem {
 		this.canSmite = true;
 	}
 
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-	}
 }

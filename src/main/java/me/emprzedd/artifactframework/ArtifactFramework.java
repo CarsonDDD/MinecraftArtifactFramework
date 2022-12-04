@@ -14,12 +14,11 @@ import me.emprzedd.artifactframework.items.RednaBreads.MaggotBread;
 
 public class ArtifactFramework extends JavaPlugin{
 
-    private PluginLogger logger;
     @Override
     public void onEnable(){
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
-        logger = new PluginLogger("output.txt",this);
+
         ArtifactItem.setPlugin(this);
 
         //----------Events-------------------------//

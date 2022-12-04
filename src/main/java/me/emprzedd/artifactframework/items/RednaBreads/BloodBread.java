@@ -11,38 +11,33 @@ import org.bukkit.potion.PotionEffectType;
 
 
 public class BloodBread extends ArtifactItem {
-	public BloodBread(String rawName, Material type, String lore) {
-		super(rawName,rawName, type, lore);
-	}
-	public BloodBread() {
-		this(Rarity.formatText(Rarity.COMMON, "Blood Bread"),Material.BREAD,"Eternal Fire.");
-	}
-	
-	
-	
-	///
+    public BloodBread(String rawName, Material type, String lore) {
+        super(rawName, rawName, type, lore);
+    }
 
-	@Override
-	protected void init() {
-		// TODO Auto-generated method stub
-		canTrack = false;
-		canPlaceInInventory = true;
-		canDropItem = true;
-		canPlaceInItemFrame = true;
-	}
+    public BloodBread() {
+        this(Rarity.formatText(Rarity.COMMON, "Blood Bread"), Material.BREAD, "Eternal Fire.");
+    }
 
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@EventHandler
-	public void onEat(PlayerItemConsumeEvent e) {
-		if(this.isSelectedArtifact(e.getItem())) {
-			Player p = e.getPlayer();
-			p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,20*20, 0));
-			p.setFireTicks(Integer.MAX_VALUE-2);
-		}
-	}
+
+    ///
+
+    @Override
+    protected void init() {
+        // TODO Auto-generated method stub
+        canTrack = false;
+        canPlaceInInventory = true;
+        canDropItem = true;
+        canPlaceInItemFrame = true;
+    }
+
+
+    @EventHandler
+    public void onEat(PlayerItemConsumeEvent e) {
+        if (this.isSelectedArtifact(e.getItem())) {
+            Player p = e.getPlayer();
+            p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20 * 20, 0));
+            p.setFireTicks(Integer.MAX_VALUE - 2);
+        }
+    }
 }

@@ -61,11 +61,6 @@ public class BanHammer extends ArtifactItem implements Listener{
 		super.canDropItem = true;
 	}
 	
-	@Override
-	protected void reloadConfig() {
-		// TODO Auto-generated method stub
-	}
-	
 	
 	@EventHandler
 	public void onPlayerKill2(PlayerDeathEvent e) {
